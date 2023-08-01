@@ -1,30 +1,42 @@
 <template>
 	<view class="con">
-		<image src="../../static/logo.png"></image>
+		<view class="title">
+			<view>{{ principal ? '' : '你好，' }}</view>
+			<view>{{ principal ? '账号密码登录' : '欢迎来到积分商城' }}</view>
+		</view>
 		<!-- 登录 -->
 		<view class="login-form">
 			<view :class="['item',errorTips==1? 'error':'']">
 				<view class="account">
-					<text class="input-item">账号</text>
-					<input type="text" @input="getInputVal" data-type="account" placeholder-class="inp-palcehoder" placeholder="请输入用户名"></input>
+					<input type="number" @input="getInputVal" maxlength="11" data-type="account" placeholder-class="inp-palcehoder" placeholder="请输入手机号码"
+					  style="width: calc(100% - 32rpx)">
+					</input>
+					<image v-if="principal" src="/static/icon/clear.png" style="width: 38rpx; height: 32rpx;" @click="principal == ''"></image>
 				</view>
-				<view class="error-text" v-if="errorTips==1"><text class="warning-icon">!</text>请输入账号！</view>
+				<view class="error-text" v-if="errorTips==1"><text class="warning-icon">!</text>请输入手机号码</view>
 			</view>
 			<view :class="['item',errorTips==2? 'error':'']">
 				<view class="account">
-					<text class="input-item">密码</text>
-					<input type="password" @input="getInputVal" data-type="password" placeholder-class="inp-palcehoder" placeholder="请输入密码"></input>
+					<input :password="!showPassword" @input="getInputVal" data-type="password" placeholder-class="inp-palcehoder" placeholder="请输入密码"
+						style="width: calc(100% - 100rpx)">
+					</input>
+					<view v-if="credentials" style="width: 100rpx;">
+						<image src="/static/icon/clear.png" style="margin-right: 20rpx; width: 32rpx; height: 32rpx;" @click="credentials == undefined"></image>
+						<image v-if="!showPassword" src="/static/icon/eye.png" style="width: 32rpx; height: 32rpx;" @click="changePassword"></image>
+						<image v-else src="/static/icon/eye-active.png" style="width: 32rpx; height: 32rpx;" @click="changePassword"></image>
+					</view>
 				</view>
-				<view class="error-text" v-if="errorTips==2"><text class="warning-icon">!</text>请输入密码！</view>
-			</view>
-			<view class="operate">
-				<view class="to-register" @tap="toRegitser">还没有账号？<text>去注册></text></view>
+				<view class="error-text" v-if="errorTips==2"><text class="warning-icon">!</text>请输入密码</view>
 			</view>
 		</view>
-
+		
 		<view>
-			<button class="authorized-btn" @tap="login">登录</button>
-			<button class="to-idx-btn" @tap="toIndex">回到首页</button>
+			<button :class="['authorized-btn', principal && credentials ? 'authorized-btn-active' : 'authorized-btn-inactive']"
+				:disabled="!principal || !credentials" @tap="login">登录</button>
+			<view class="operate">
+				<view class="to-register" @tap="toRegitser"><text>注  册</text></view>
+				<view class="forgot-password" @tap="forgotPassword"><text>忘记密码？</text></view>
+			</view>
 		</view>
 
 	</view>
@@ -44,7 +56,7 @@
 				credentials: '', // 密码
 				// isPersonalCenter: false, //是否从个人中心页面跳转过来
 				errorTips: 0, //错误提示
-
+				showPassword: false
 			};
 		},
 
@@ -75,6 +87,7 @@
 			uni.setNavigationBarTitle({
 				title: "用户登录"
 			});
+			this.showPassword = false
 		},
 
 		/**
@@ -103,6 +116,9 @@
 		onShareAppMessage: function() {},
 
 		methods: {
+			changePassword: function() {
+					this.showPassword = !this.showPassword;
+			},
 			/**
 			 * 输入框的值
 			 */
@@ -123,24 +139,7 @@
 			 * 登录
 			 */
 			login() {
-				// // #ifdef H5
-				// var ua = navigator.userAgent.toLowerCase();
-				// var data = {
-				// 	appType: ua.search(/MicroMessenger/i) > -1 ? AppType.MP : AppType.H5,
-				// 	principal: ua.search(/MicroMessenger/i) > -1 ? this.principal + ':' + util.getUrlKey('code') : this.principal,
-				// 	credentials: this.credentials,
-				// 	loginType: 0, //账号登录
-				// }
-				// // #endif
-				// // #ifdef APP-PLUS
-				// var data = {
-				// 	appType: uni.getStorageSync('appType'),
-				// 	principal: this.principal,
-				// 	credentials: this.credentials,
-				// 	loginType: 0, //账号登录
-				// }
-				// // #endif
-
+				console.log('login');
 				if (this.principal.length == 0) {
 					this.setData({
 						errorTips: 1
@@ -155,7 +154,6 @@
 					this.setData({
 						errorTips: 0
 					})
-					// #ifdef H5 || APP-PLUS
 					var params = {
 						url: "/login",
 						method: "post",
@@ -181,28 +179,6 @@
 						},
 					}
 					http.request(params)
-					// #endif
-					// #ifdef MP-WEIXIN
-					// wx.login({
-					// 	success: (res) => {
-					// 		var params = {
-					// 			url: "/login",
-					// 			method: "post",
-					// 			data: {
-					// 				appType: 1,
-					// 				credentials: this.credentials,
-					// 				loginType: 0,
-					// 				principal: this.principal + ':' + res.code
-					// 			},
-					// 			callBack: result => {
-					// 				http.loginSuccess(result)
-					// 				this.$Router.pushTab('/pages/index/index')
-					// 			},
-					// 		}
-					// 		http.request(params)
-					// 	},
-					// })
-					// #endif
 				}
 			},
 

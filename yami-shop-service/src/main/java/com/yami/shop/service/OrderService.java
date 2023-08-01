@@ -8,6 +8,7 @@ import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yami.shop.bean.app.dto.IndexOrderDto;
 import com.yami.shop.bean.app.dto.OrderCountData;
 import com.yami.shop.bean.app.dto.ShopCartOrderMergerDto;
 import com.yami.shop.bean.model.Order;
@@ -112,4 +113,6 @@ public interface OrderService extends IService<Order> {
      * @return
      */
     OrderCountData getOrderCount(String userId);
+
+    List<IndexOrderDto> orderRecords();
 }

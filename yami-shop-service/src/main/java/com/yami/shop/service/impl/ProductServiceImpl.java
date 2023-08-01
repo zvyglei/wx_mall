@@ -59,8 +59,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         if (CollectionUtil.isNotEmpty(product.getSkuList())) {
             skuMapper.insertBatch(product.getProdId(), product.getSkuList());
         }
-        prodTagReferenceMapper.insertBatch(product.getShopId(), product.getProdId(), product.getTagList());
-
+        if (CollectionUtil.isNotEmpty(product.getTagList())) {
+            prodTagReferenceMapper.insertBatch(product.getShopId(), product.getProdId(), product.getTagList());
+        }
     }
 
     @Override
@@ -165,8 +166,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
-    public IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, Long categoryId) {
-        return productMapper.pageByCategoryId(page, categoryId);
+    public IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, Long categoryId, String keywords) {
+        return productMapper.pageByCategoryId(page, categoryId, keywords);
     }
 
     @Override
@@ -193,5 +194,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         return productMapper.collectionProds(page, userId);
     }
 
+    @Override
+    public Boolean updateSoldNumByOrderItem(Long prodId, Integer prodCount) {
+        return productMapper.updateSoldNumByOrderItem(prodId, prodCount);
+    }
 
 }

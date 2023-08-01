@@ -21,7 +21,7 @@
  * docs:
  * https://panjiachen.github.io/vue-element-admin-site/feature/component/rich-editor.html#tinymce
  */
-import mulPicUpload from '@/components/mul-pic-upload'
+// import mulPicUpload from '@/components/mul-pic-upload'
 import plugins from './plugins'
 import toolbar from './toolbar'
 import load from './dynamicLoadScript'
@@ -33,7 +33,7 @@ const resourceCdn3 = 'https://unpkg.com/tinymce-all-in-one@4.9.3/tinymce.min.js'
 
 export default {
   name: 'Tinymce',
-  components: { mulPicUpload },
+  // components: { mulPicUpload },
   props: {
     id: {
       type: String,
@@ -245,7 +245,7 @@ export default {
     imageSuccessCBK (response, file, fileList) {
       const _this = this
       fileList.forEach(v => {
-        window.tinymce.get(_this.tinymceId).insertContent(`<img class="wscnph" src="${this.resourcesUrl + v.response}" >`)
+        window.tinymce.get(_this.tinymceId).insertContent(`<img class="wscnph" src="${this.resourcesUrl + v.response.data}" >`)
       })
     }
   }

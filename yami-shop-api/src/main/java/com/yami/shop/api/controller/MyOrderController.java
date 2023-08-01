@@ -75,14 +75,14 @@ public class MyOrderController {
             throw new RuntimeException("你没有权限获取该订单信息");
         }
 
-        ShopDetail shopDetail = shopDetailService.getShopDetailByShopId(order.getShopId());
+        // ShopDetail shopDetail = shopDetailService.getShopDetailByShopId(order.getShopId());
         UserAddrOrder userAddrOrder = userAddrOrderService.getById(order.getAddrOrderId());
         UserAddrDto userAddrDto = BeanUtil.copyProperties(userAddrOrder, UserAddrDto.class);
         List<OrderItem> orderItems = orderItemService.getOrderItemsByOrderNumber(orderNumber);
         List<OrderItemDto> orderItemDtos = BeanUtil.copyToList(orderItems, OrderItemDto.class);
 
-        orderShopDto.setShopId(shopDetail.getShopId());
-        orderShopDto.setShopName(shopDetail.getShopName());
+        // orderShopDto.setShopId(shopDetail.getShopId());
+        // orderShopDto.setShopName(shopDetail.getShopName());
         orderShopDto.setActualTotal(order.getActualTotal());
         orderShopDto.setUserAddrDto(userAddrDto);
         orderShopDto.setOrderItemDtos(orderItemDtos);

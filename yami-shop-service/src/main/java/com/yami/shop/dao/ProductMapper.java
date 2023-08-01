@@ -70,7 +70,7 @@ public interface ProductMapper extends BaseMapper<Product> {
      * @param categoryId
      * @return
      */
-    IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, @Param("categoryId") Long categoryId);
+    IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, @Param("categoryId") Long categoryId, @Param("keywords") String keywords);
 
     /**
      * 根据商品名称和排序分页获取商品
@@ -121,4 +121,5 @@ public interface ProductMapper extends BaseMapper<Product> {
      */
     IPage<ProductDto> collectionProds(@Param("page") PageParam page, @Param("userId") String userId);
 
+    Boolean updateSoldNumByOrderItem(@Param("prodId") Long prodId, @Param("prodCount") Integer prodCount);
 }

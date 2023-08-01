@@ -205,16 +205,16 @@ public class ProductController {
     }
 
     private void checkParam(ProductParam productParam) {
-        if (CollectionUtil.isEmpty(productParam.getTagList())) {
-            throw new YamiShopBindException("请选择产品分组");
-        }
-
-        Product.DeliveryModeVO deliveryMode = productParam.getDeliveryModeVo();
-        boolean hasDeliverMode = deliveryMode != null
-                && (deliveryMode.getHasShopDelivery() || deliveryMode.getHasUserPickUp());
-        if (!hasDeliverMode) {
-            throw new YamiShopBindException("请选择配送方式");
-        }
+        // if (CollectionUtil.isEmpty(productParam.getTagList())) {
+        //     throw new YamiShopBindException("请选择产品分组");
+        // }
+        //
+        // Product.DeliveryModeVO deliveryMode = productParam.getDeliveryModeVo();
+        // boolean hasDeliverMode = deliveryMode != null
+        //         && (deliveryMode.getHasShopDelivery() || deliveryMode.getHasUserPickUp());
+        // if (!hasDeliverMode) {
+        //     throw new YamiShopBindException("请选择配送方式");
+        // }
         List<Sku> skuList = productParam.getSkuList();
         boolean isAllUnUse = true;
         for (Sku sku : skuList) {

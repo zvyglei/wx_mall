@@ -2,8 +2,7 @@
   <div class="login">
     <div class="login-box">
       <div class="top">
-        <div class="logo"><img src="~@/assets/img/login-logo.png"
-               alt=""></div>
+        <h1>小程序后台管理</h1>
       </div>
       <div class="mid">
         <el-form :model="dataForm"
@@ -45,7 +44,7 @@
         </el-form>
       </div>
 
-      <div class="bottom">Copyright © 2019 广州市蓝海创新科技有限公司</div>
+      <div class="bottom"></div>
     </div>
     <Verify
       ref="verify"
@@ -124,7 +123,7 @@ export default {
         })
       }).then(({ data }) => {
         this.$cookie.set('Authorization', data.accessToken)
-        this.$router.replace({ name: 'home' })
+        this.$router.replace({ name: 'prodList' })
       }).catch(() => {
         this.isSubmit = false
       })
@@ -168,6 +167,7 @@ export default {
   position: fixed;
 }
 .login .login-box {
+  width: 300px;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

@@ -68,7 +68,8 @@ public class ShopCartController {
 
         // 拿到购物车的所有item
         List<ShopCartItemDto> shopCartItems = basketService.getShopCartItems(userId);
-        return ServerResponseEntity.success(basketService.getShopCarts(shopCartItems));
+        List<ShopCartDto> shopCarts = basketService.getShopCarts(shopCartItems);
+        return ServerResponseEntity.success(shopCarts);
 
     }
 

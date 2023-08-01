@@ -1,0 +1,224 @@
+{
+	"easycom": {
+		"custom": {
+			"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+		}
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			// "path": "pages/user/register",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/shop/index",
+			"style": {
+				"navigationBarTitleText": "商城"
+			}
+		},
+		{
+			"path": "pages/cart/basket",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},
+		{
+			"path": "pages/me/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}
+	    ,{
+            "path" : "pages/user/login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户登录",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/register",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户注册",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/forget-password",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "忘记密码",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/user/forget-pay-password",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "忘记支付密码",
+                "enablePullDownRefresh": false
+            }
+        }
+        ,{
+            "path" : "pages/user/reset-password",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "修改密码",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商品详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/address/list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "地址管理",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/address/add-or-update",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "地址维护",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/address/delivery-address",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "地址选择",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/order/submit",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "提交订单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/order/list",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的订单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/order/detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "订单详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/pay-result/pay-result",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "支付成功",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/me/transfer",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "账号转账",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/vip-verify",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "会员认证",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/vip-verify-info",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "认证信息",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/user/bill",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "积分记录",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#909399",
+		"selectedColor": "#303133",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				// "pagePath": "pages/user/register",
+				"iconPath": "static/tabbar/home.png",
+				"selectedIconPath": "static/tabbar/home-on.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/shop/index",
+				"iconPath": "static/tabbar/shop.png",
+				"selectedIconPath": "static/tabbar/shop-on.png",
+				"text": "商城"
+			},
+			{
+				"pagePath": "pages/cart/basket",
+				"iconPath": "static/tabbar/cart.png",
+				"selectedIconPath": "static/tabbar/cart-on.png",
+				"text": "购物车"
+			},
+			{
+				"pagePath": "pages/me/index",
+				"iconPath": "static/tabbar/user.png",
+				"selectedIconPath": "static/tabbar/user-on.png",
+				"text": "我的"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}

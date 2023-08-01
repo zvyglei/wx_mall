@@ -83,7 +83,7 @@ public interface ProductService extends IService<Product> {
      * @param categoryId
      * @return
      */
-    IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, Long categoryId);
+    IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, Long categoryId, String keywords);
 
     /**
      * 根据商品名称
@@ -108,4 +108,7 @@ public interface ProductService extends IService<Product> {
      * @return
      */
     IPage<ProductDto> collectionProds(PageParam page, String userId);
+
+    Boolean updateSoldNumByOrderItem(Long prodId, Integer prodCount);
+
 }

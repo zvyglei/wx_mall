@@ -7,7 +7,6 @@ package com.yami.shop.common.config;
 import cn.hutool.crypto.symmetric.AES;
 import com.yami.shop.common.bean.AliDaYu;
 import com.yami.shop.common.bean.ImgUpload;
-import com.yami.shop.common.bean.Qiniu;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +19,6 @@ import org.springframework.context.annotation.Configuration;
 public class ShopBeanConfig {
 
 	private final ShopBasicConfig shopBasicConfig;
-
-    @Bean
-    public Qiniu qiniu() {
-    	return shopBasicConfig.getQiniu();
-    }
 
     @Bean
     public AES tokenAes() {

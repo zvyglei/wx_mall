@@ -25,4 +25,10 @@ public interface UserMapper extends BaseMapper<User> {
 	 * @return
 	 */
 	User selectOneByUserName(@Param("userName") String userName);
+
+    Boolean updateScoreById(User user);
+
+    Boolean reduceScoreById(User user);
+
+	String getRefereeById(String userId);
 }

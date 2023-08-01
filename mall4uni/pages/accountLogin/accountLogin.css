@@ -3,33 +3,89 @@ page{
   height: 100%;
 }
 .con{
-  margin-top: 50px;
+  padding: 50rpx;
 }
-image {
-  display: block;
-  width: 150rpx;
-  height: 150rpx;
-  margin: auto;
-  border-radius: 50%;
-  margin-bottom: 8%;
+
+.title {
+	left: 50rpx;
+	top: 50rpx;
+	height: 160rpx;
+	width: 435rpx;
+	color: rgba(16, 16, 16, 1);
+	font-size: 50rpx;
+	text-align: left;
+	margin-bottom: 50px;
+	line-height: 1.7em;
+	font-family: PingFangSC-bold;
 }
+
+.title view:first-child  {
+	height: 84rpx;
+}
+
 .login-form{
-  width: 90%;
   margin: 0 auto;
-  margin-bottom: 20%;
+  margin-bottom: 100rpx;
+}
+.item {
+	display: block;
+	margin-bottom: 34rpx;
+}
+.account{
+  display: flex;
+  background: #f8f8f8;
+  padding: 15rpx;
+	height: 90rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+  align-items: center;
+}
+.account input{
+  padding-left: 20rpx;
+  padding-right: 50rpx;
+  width: 80%;
+}
+.account input.int-yzm {
+  padding-right: 10rpx;
+  box-sizing: border-box;
+}
+.inp-palcehoder{
+  font-size: 28rpx;
+	color: rgba(183, 183, 183, 1);;
 }
 .authorized-btn {
-  width: 90%;
   margin: 0 auto;
   text-align: center;
-  background-color: #0ab906;
-  border: 1rpx solid #0ab906;
+	height: 90rpx;
   color: #fff;
   border-radius: 6rpx;
-  font-size: 26rpx;
+  font-size: 32rpx;
   padding: 8rpx;
   margin-top: 80rpx;
 }
+
+.authorized-btn-inactive {
+	background-color: #DFDFDF%;
+}
+
+.authorized-btn-active {
+	background-color: #3291F8;
+}
+
+/* 找回密码&去注册 */
+.operate {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 28rpx;
+}
+.to-register {
+	color: #00AAFF;
+}
+.forgot-password {
+	color: #999999;
+}
+
 .to-idx-btn{
 	width: 90%;
 	margin: 0 auto;
@@ -48,30 +104,7 @@ image {
   text-align: center;
   color: #00a0e9;
 }
-.item {
-	display: block;
-	margin-bottom: 30rpx;
-}
-.account{
-  display: flex;
-  background: #f8f8f8;
-  padding: 15rpx;
-  box-sizing: border-box;
-  font-size: 26rpx;
-  align-items: center;
-}
-.account input{
-  padding-left: 20rpx;
-  width:75%;
-}
-.inp-palcehoder{
-  font-size: 26rpx;
-}
-.account input.int-yzm {
-  width: 410rpx;
-  padding-right: 10rpx;
-  box-sizing: border-box;
-}
+
 .input-btn {
   width: 152rpx;
   font-size: 26rpx;
@@ -81,18 +114,6 @@ image {
 
 button::after{
   border: 0 !important;
-}
-
-/* 找回密码&去注册 */
-.operate {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-.forgot-password,
-.to-register {
-	font-size: 28rpx;
-	color: #00AAFF;
 }
 
 /* 错误提示 */

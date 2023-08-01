@@ -5,6 +5,7 @@
 package com.yami.shop.api.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.yami.shop.bean.app.dto.UserAddrDto;
 import com.yami.shop.bean.app.param.AddrParam;
 import com.yami.shop.bean.model.UserAddr;
@@ -83,6 +84,13 @@ public class AddrController {
     public ServerResponseEntity<String> updateAddr(@Valid @RequestBody AddrParam addrParam) {
         String userId = SecurityUtils.getUser().getUserId();
 
+        if (addrParam.getCommonAddr() == 1) {
+            // 把用户所有地址设置为非默认
+            LambdaUpdateWrapper<UserAddr> uw = new LambdaUpdateWrapper<>();
+            uw.set(UserAddr::getCommonAddr, 0).eq(UserAddr::getUserId, userId);
+            userAddrService.update(uw);
+        }
+
         UserAddr dbUserAddr = userAddrService.getUserAddrByUserId(addrParam.getAddrId(), userId);
         if (dbUserAddr == null) {
             return ServerResponseEntity.showFailMsg("该地址已被删除");
@@ -143,6 +151,22 @@ public class AddrController {
     public ServerResponseEntity<UserAddrDto> addrInfo(@PathVariable("addrId") Long addrId) {
         String userId = SecurityUtils.getUser().getUserId();
         UserAddr userAddr = userAddrService.getUserAddrByUserId(addrId, userId);
+        if (userAddr == null) {
+            throw new YamiShopBindException("该地址已被删除");
+        }
+        return ServerResponseEntity.success(BeanUtil.copyProperties(userAddr, UserAddrDto.class));
+    }
+
+    /**
+     * 获取用户默认地址信息
+     */
+    @GetMapping("/addrCommonInfo")
+    @Operation(summary = "获取默认地址信息" , description = "根据登录用户，获取默认地址信息")
+    public ServerResponseEntity<UserAddrDto> addrCommonInfo() {
+        String userId = SecurityUtils.getUser().getUserId();
+        LambdaQueryWrapper<UserAddr> qw = new LambdaQueryWrapper<>();
+        qw.eq(UserAddr::getUserId, userId).eq(UserAddr::getCommonAddr, 1);
+        UserAddr userAddr = userAddrService.getOne(qw);
         if (userAddr == null) {
             throw new YamiShopBindException("该地址已被删除");
         }

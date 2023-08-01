@@ -78,6 +78,9 @@
         <if test="categoryId != null">
             AND tp.category_id = #{categoryId}
         </if>
+        <if test="keywords != null and keywords != ''">
+            and tp.prod_name like concat('%', #{keywords}, '%')
+        </if>
     </select>
 
     <select id="getProductByProdNameAndShopId" resultType="com.yami.shop.bean.model.Product">
@@ -88,6 +91,9 @@
         <foreach collection="prodCollect" item="changeStocks" index="prodId" separator=";">
             update tz_prod set total_stocks = total_stocks + #{changeStocks} where prod_id = #{prodId}
         </foreach>
+    </update>
+    <update id="updateSoldNumByOrderItem">
+        update tz_prod set sold_num = sold_num + #{prodCount} where prod_id = #{prodId}
     </update>
 
 

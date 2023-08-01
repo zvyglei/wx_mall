@@ -57,7 +57,8 @@ public class SysConfigController{
 	 * 配置信息
 	 */
 	@GetMapping("/info/{id}")
-	@PreAuthorize("@pms.hasPermission('sys:config:info')")
+	// @PreAuthorize("@pms.hasPermission('sys:config:info')")
+	@PreAuthorize("@pms.hasPermission('sys:transfer:config')")
 	public ServerResponseEntity<SysConfig> info(@PathVariable("id") Long id){
 		SysConfig config = sysConfigService.getById(id);
 		return ServerResponseEntity.success(config);
@@ -79,7 +80,8 @@ public class SysConfigController{
 	 */
 	@SysLog("修改配置")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('sys:config:update')")
+	// @PreAuthorize("@pms.hasPermission('sys:config:update')")
+	@PreAuthorize("@pms.hasPermission('sys:transfer:config')")
 	public ServerResponseEntity<Void> update(@RequestBody @Valid SysConfig config){
 		sysConfigService.updateById(config);
 		return ServerResponseEntity.success();

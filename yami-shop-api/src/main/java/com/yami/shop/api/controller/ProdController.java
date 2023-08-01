@@ -55,8 +55,8 @@ public class ProdController {
             @Parameter(name = "categoryId", description = "分类ID" , required = true),
     })
     public ServerResponseEntity<IPage<ProductDto>> prodList(
-            @RequestParam(value = "categoryId") Long categoryId,PageParam<ProductDto> page) {
-        IPage<ProductDto> productPage = prodService.pageByCategoryId(page, categoryId);
+            PageParam<ProductDto> page, String keywords) {
+        IPage<ProductDto> productPage = prodService.pageByCategoryId(page, null, keywords);
         return ServerResponseEntity.success(productPage);
     }
 

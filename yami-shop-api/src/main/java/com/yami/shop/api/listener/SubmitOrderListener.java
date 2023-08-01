@@ -113,7 +113,7 @@ public class SubmitOrderListener {
 
             if (skuMapper.updateStocks(sku) == 0) {
                 skuService.removeSkuCacheBySkuId(key, sku.getProdId());
-                throw new YamiShopBindException("商品：[" + sku.getProdName() + "]库存不足");
+                throw new YamiShopBindException("商品库存不足");
             }
         });
 
@@ -122,7 +122,7 @@ public class SubmitOrderListener {
 
             if (productMapper.updateStocks(prod) == 0) {
                 productService.removeProductCacheByProdId(prodId);
-                throw new YamiShopBindException("商品：[" + prod.getProdName() + "]库存不足");
+                throw new YamiShopBindException("商品库存不足");
             }
         });
 
@@ -259,7 +259,7 @@ public class SubmitOrderListener {
 
         // -1为无限库存
         if (product.getTotalStocks() != -1 && mapProduct.getTotalStocks() > product.getTotalStocks()) {
-            throw new YamiShopBindException("商品：[" + product.getProdName() + "]库存不足");
+            throw new YamiShopBindException("商品库存不足");
         }
 
         return product;
@@ -274,11 +274,11 @@ public class SubmitOrderListener {
         }
 
         if (sku.getStatus() != 1) {
-            throw new YamiShopBindException("商品[" + sku.getProdName() + "]已下架");
+            throw new YamiShopBindException("商品已下架");
         }
         // -1为无限库存
         if (sku.getStocks() != -1 && shopCartItem.getProdCount() > sku.getStocks()) {
-            throw new YamiShopBindException("商品：[" + sku.getProdName() + "]库存不足");
+            throw new YamiShopBindException("商品库存不足");
         }
 
         if (sku.getStocks() != -1) {

@@ -14,8 +14,10 @@ import lombok.Data;
 public class AliDaYu {
 
 	private String accessKeyId;
-	
+
 	private String accessKeySecret;
-	
+
 	private String signName;
+
+	private String templateCode;
 }

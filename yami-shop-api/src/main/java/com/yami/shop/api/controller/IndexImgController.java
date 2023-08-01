@@ -5,8 +5,10 @@
 package com.yami.shop.api.controller;
 
 import com.yami.shop.bean.app.dto.IndexImgDto;
+import com.yami.shop.bean.app.dto.IndexOrderDto;
 import com.yami.shop.bean.model.IndexImg;
 import com.yami.shop.service.IndexImgService;
+import com.yami.shop.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import cn.hutool.core.bean.BeanUtil;
@@ -27,6 +29,9 @@ public class IndexImgController {
     @Autowired
     private IndexImgService indexImgService;
 
+    @Autowired
+    private OrderService orderService;
+
     /**
      * 首页轮播图接口
      */
@@ -36,5 +41,15 @@ public class IndexImgController {
         List<IndexImg> indexImgList = indexImgService.listIndexImg();
         List<IndexImgDto> indexImgDtos = BeanUtil.copyToList(indexImgList, IndexImgDto.class);
         return ServerResponseEntity.success(indexImgDtos);
+    }
+
+    /**
+     * 订单轮播接口
+     */
+    @GetMapping("/orderRecords")
+    @Operation(summary = "订单轮播接口" , description = "订单轮播接口")
+    public ServerResponseEntity<List<IndexOrderDto>> orderRecords() {
+        List<IndexOrderDto> list = orderService.orderRecords();
+        return ServerResponseEntity.success(list);
     }
 }

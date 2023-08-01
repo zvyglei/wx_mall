@@ -28,13 +28,13 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements SkuSe
     private SkuMapper skuMapper;
 
 	@Override
-	@Cacheable(cacheNames = "skuList", key = "#prodId")
+	// @Cacheable(cacheNames = "skuList", key = "#prodId")
 	public List<Sku> listByProdId(Long prodId) {
 		return skuMapper.listByProdId(prodId);
 	}
 
 	@Override
-	@Cacheable(cacheNames = "sku", key = "#skuId")
+	// @Cacheable(cacheNames = "sku", key = "#skuId")
 	public Sku getSkuBySkuId(Long skuId) {
 		return skuMapper.selectById(skuId);
 	}

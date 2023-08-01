@@ -11,6 +11,7 @@ export const tableOption = {
   addBtn: false,
   editBtn: false,
   delBtn: false,
+  menuWidth: 200,
   column: [
     {
       label: '热搜标题',
@@ -18,24 +19,22 @@ export const tableOption = {
       search: true
     },
     {
-      label: '热搜内容',
-      prop: 'content',
-      search: true
-    },
-    {
       label: '录入时间',
       prop: 'recDate',
+      width: '220',
       sortable: true
     },
     {
       label: '顺序',
       prop: 'seq',
+      width: '150',
       sortable: true
     },
     {
       label: '启用状态',
       prop: 'status',
       type: 'select',
+      width: '150',
       slot: true,
       search: true,
       dicData: [

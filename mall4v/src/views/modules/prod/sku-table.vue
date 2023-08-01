@@ -14,7 +14,7 @@
         <el-table-column v-if="tableLeftTitles.length"
           prop="pic"
           label="sku图片"
-          width="180">
+          width="150">
           <template slot-scope="scope">
             <pic-upload v-model="scope.row.pic">
             </pic-upload>
@@ -30,14 +30,14 @@
         </el-table-column>
         <el-table-column
           prop="price"
-          label="销售价"
+          label="黄金豆"
           width="160">
           <template slot-scope="scope">
              <el-input-number
               size="small"
               v-model="scope.row.price"
               controls-position="right"
-              :precision="2"
+              :precision="0"
               :max="1000000000"
               :min="0.01"
               :disabled="!scope.row.status">
@@ -46,7 +46,7 @@
         </el-table-column>
         <el-table-column
           prop="oriPrice"
-          label="市场价"
+          label="商品原价"
           width="160">
           <template slot-scope="scope">
             <el-input-number
@@ -192,7 +192,6 @@
 </script>
 
 <style lang="scss">
-
   .mod-prod-sku-table{
     .pic-uploader-component .el-upload {
       border: 1px dashed #d9d9d9;

@@ -18,6 +18,7 @@
     "uni-read-pages": "^1.0.5"
   },
   "dependencies": {
-    "crypto-js": "^4.1.1"
+    "crypto-js": "^4.1.1",
+    "uview-ui": "^2.0.36"
   }
 }

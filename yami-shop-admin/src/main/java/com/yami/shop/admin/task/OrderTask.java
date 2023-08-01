@@ -4,24 +4,23 @@
 
 package com.yami.shop.admin.task;
 
-import java.util.Date;
-import java.util.List;
-
-import com.xxl.job.core.handler.annotation.XxlJob;
-import com.yami.shop.service.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateUtil;
 import com.yami.shop.bean.enums.OrderStatus;
 import com.yami.shop.bean.model.Order;
 import com.yami.shop.bean.model.OrderItem;
-import com.yami.shop.bean.model.User;
+import com.yami.shop.service.OrderService;
+import com.yami.shop.service.ProductService;
+import com.yami.shop.service.SkuService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.StrUtil;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -29,7 +28,7 @@ import cn.hutool.core.util.StrUtil;
  * 定时任务的配置，请查看xxl-job的java配置文件。
  * @see com.yami.shop.admin.config.XxlJobConfig
  */
-@Component("orderTask")
+@Component
 public class OrderTask {
 
 
@@ -42,8 +41,15 @@ public class OrderTask {
     @Autowired
     private SkuService skuService;
 
-    @XxlJob("cancelOrder")
+    @Value("${spring.profiles.active}")
+    private String profilesActive;
+
+    @Scheduled(cron ="0 */1 * * * ?")
     public void cancelOrder(){
+        if ("dev".equals(profilesActive)) {
+            return;
+        }
+
         Date now = new Date();
         logger.info("取消超时未支付订单。。。");
         // 获取30分钟之前未支付的订单
@@ -64,8 +70,12 @@ public class OrderTask {
     /**
      * 确认收货
      */
-    @XxlJob("confirmOrder")
+    @Scheduled(cron ="0 */3 * * * ?")
     public void confirmOrder(){
+        if ("dev".equals(profilesActive)) {
+            return;
+        }
+
         Date now = new Date();
         logger.info("系统自动确认收货订单。。。");
         // 获取15天之前未支付的订单

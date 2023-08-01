@@ -19,4 +19,14 @@ spring:
       database: 2
 logging:
   config: classpath:logback/logback-dev.xml
+wx:
+  mp:
+    appid: wxdf663519fa70c81f
+  miniapp:
+    configs:
+      - appid: wx5efbe6fd93ec935b #微信小程序的appid
+        secret: ca66e495c5ecf60a857638e1265e66f5 #微信小程序的Secret
+        token: #微信小程序消息服务器配置的token
+        aesKey: #微信小程序消息服务器配置的EncodingAESKey
+        msgDataFormat: JSON
 

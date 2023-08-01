@@ -1,12 +1,8 @@
 <template>
   <div>
-    <el-upload
-      class="pic-uploader-component"
-      :action="$http.adornUrl('/admin/file/upload/element')"
-      :headers="{Authorization: $cookie.get('Authorization')}"
-      :show-file-list="false"
-      :on-success="handleUploadSuccess"
-      :before-upload="beforeAvatarUpload">
+    <el-upload class="pic-uploader-component" :action="$http.adornUrl('/admin/file/upload/element')"
+               :headers="{Authorization: $cookie.get('Authorization')}" :show-file-list="false"
+               :on-success="handleUploadSuccess" :before-upload="beforeAvatarUpload">
       <img v-if="value" :src="resourcesUrl + value" class="pic">
       <i v-else class="el-icon-plus pic-uploader-icon"></i>
     </el-upload>
@@ -57,19 +53,18 @@
     .pic-uploader-icon {
       font-size: 28px;
       color: #8c939d;
-      width: 178px;
-      height: 178px;
-      line-height: 178px;
+      width: 120px;
+      height: 120px;
+      line-height: 120px;
       text-align: center;
     }
     .pic {
-      width: 178px;
-      height: 178px;
+      width: 120px;
+      height: 120px;
       display: block;
     }
   }
   .pic-uploader-component .el-upload:hover {
-    border-color: #409EFF;
+    border-color: #409eff;
   }
-
 </style>

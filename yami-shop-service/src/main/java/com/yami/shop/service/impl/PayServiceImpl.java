@@ -5,19 +5,27 @@
 package com.yami.shop.service.impl;
 
 import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.yami.shop.bean.bo.WxTemplateMsgBo;
+import com.yami.shop.bean.enums.BillType;
 import com.yami.shop.bean.enums.PayType;
 import com.yami.shop.bean.event.PaySuccessOrderEvent;
 import com.yami.shop.bean.model.Order;
 import com.yami.shop.bean.model.OrderSettlement;
 import com.yami.shop.bean.app.param.PayParam;
+import com.yami.shop.bean.model.User;
+import com.yami.shop.bean.model.UserBill;
 import com.yami.shop.bean.pay.PayInfoDto;
 import com.yami.shop.common.exception.YamiShopBindException;
 import com.yami.shop.common.util.Arith;
 import com.yami.shop.dao.OrderMapper;
 import com.yami.shop.dao.OrderSettlementMapper;
+import com.yami.shop.dao.UserMapper;
 import com.yami.shop.service.PayService;
+import com.yami.shop.service.UserBillService;
+import com.yami.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -31,6 +39,15 @@ import java.util.stream.Collectors;
  */
 @Service
 public class PayServiceImpl implements PayService {
+
+    @Autowired
+    private UserBillService userBillService;
+
+    @Autowired
+    private WxServerService wxServerService;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private OrderMapper orderMapper;
@@ -80,6 +97,41 @@ public class PayServiceImpl implements PayService {
             payAmount = Arith.add(payAmount, orderSettlement.getPayAmount());
         }
 
+        // 校验余额
+        int amount = Double.valueOf(payAmount).intValue();
+        User user = userMapper.selectById(userId);
+        if (user.getScore() < payAmount) {
+            throw new YamiShopBindException("余额不足！");
+        } else {
+            User scoreUser = new User();
+            scoreUser.setUserId(userId);
+            scoreUser.setScore(amount);
+            Boolean reduce = userMapper.reduceScoreById(scoreUser);
+            if (!reduce) {
+                throw new YamiShopBindException("支付失败，请重新选购！");
+            }
+        }
+
+        // 添加账单信息
+        UserBill bill = new UserBill();
+        bill.setUserId(userId);
+        bill.setOrderId(payParam.getOrderNumbers());
+        bill.setBillType(BillType.OUT.value());
+        bill.setScore(amount);
+        bill.setBillDesc("商城消费");
+        bill.setCreateTime(new Date());
+        userBillService.save(bill);
+
+        // 发送微信通知
+        int finalPayAmount = (int) payAmount;
+        ThreadUtil.execAsync(() -> {
+            WxTemplateMsgBo templateMsg = new WxTemplateMsgBo();
+            templateMsg.setScore(String.valueOf(user.getScore() - finalPayAmount));
+            templateMsg.setShopScore("-" + finalPayAmount);
+            templateMsg.setShopTime(new Date());
+            wxServerService.sendUnionMsg(templateMsg, user.getWxOpenId());
+        });
+
         prodName.substring(0, Math.min(100, prodName.length() - 1));
 
         PayInfoDto payInfoDto = new PayInfoDto();
@@ -105,8 +157,6 @@ public class PayServiceImpl implements PayService {
         if (orderSettlementMapper.updateToPay(payNo, settlement.getVersion()) < 1) {
             throw new YamiShopBindException("结算信息已更改");
         }
-
-
         List<String> orderNumbers = orderSettlements.stream().map(OrderSettlement::getOrderNumber).collect(Collectors.toList());
 
         // 将订单改为已支付状态

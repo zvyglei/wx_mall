@@ -8,7 +8,7 @@
 		onShow: function() {
     	console.log('mall4j.v230313')
 			// 判断浏览器环境
-			var ua = navigator.userAgent.toLowerCase();
+			// var ua = navigator.userAgent.toLowerCase();
 			// if (ua.search(/MicroMessenger/i) > -1 && !uni.getStorageSync('appType')) {
 			// 	// 微信环境
 			// 	uni.setStorageSync('appType', 2)
@@ -39,7 +39,7 @@
 		}
 	};
 </script>
-<style>
+<style lang="scss">
 	@import "./app.css";
 
 	/* 隐藏头部 */

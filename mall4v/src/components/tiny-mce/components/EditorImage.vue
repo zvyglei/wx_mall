@@ -58,7 +58,7 @@ export default {
       let imageArray = imagePath.split(',')
       var data = []
       imageArray.forEach(img => {
-        data.push(this.resourcesUrl + img)
+        data.push(this.resourcesUrl + img.data)
       })
       this.imgUrls = ''
       this.dialogVisible = false

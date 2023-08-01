@@ -351,5 +351,20 @@
         FROM tz_order o
         WHERE o.user_id =#{userId}
     </select>
+    <select id="orderRecords" resultType="com.yami.shop.bean.app.dto.IndexOrderDto">
+        select REPLACE(u.real_name, SUBSTR(u.real_name, 2), '**') as real_name,
+               CONCAT(LEFT(u.user_mobile,3), '****', RIGHT(u.user_mobile,4))as user_mobile,
+               oi.pic,
+               oi.prod_name,
+               oi.prod_count,
+               oi.product_total_amount as price,
+               (p.ori_price * oi.prod_count) as ori_price
+        from tz_order_item oi
+                 left join tz_order o on oi.order_number = o.order_number
+                 left join tz_prod p on oi.prod_id = p.prod_id
+                 left join tz_user u on oi.user_id = u.user_id
+        where o.is_payed = 1
+        order by o.pay_time
+    </select>
 
 </mapper>

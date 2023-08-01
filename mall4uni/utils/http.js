@@ -58,63 +58,63 @@ function request(params, isGetTonken) {
 				uni.hideLoading();
 				if (!params.dontTrunLogin) {
 					if (uni.getStorageSync('hadLogin')) {
-						uni.showModal({
-							title: "提示",
-							content: "登录已过期",
-							cancelText: "取消",
-							confirmText: "确定",
-							success: res => {
-								if (res.confirm) {
-									// 跳转登录页面
-									var url = ''
-									// #ifdef H5 || MP-WEIXIN
-									if (uni.getStorageSync('appType') == AppType.MP || uni.getStorageSync('appType') == AppType.MINI) {
-										url = '/pages/login/login'
-									} else {
-										url = '/pages/accountLogin/accountLogin'
-									}
-									// #endif
+						// uni.showModal({
+						// 	title: "提示",
+						// 	content: "登录已过期",
+						// 	cancelText: "取消",
+						// 	confirmText: "确定",
+						// 	success: res => {
+						// 		if (res.confirm) {
+						// 			// 跳转登录页面
+						// 			var url = ''
+						// 			// #ifdef H5 || MP-WEIXIN
+						// 			if (uni.getStorageSync('appType') == AppType.MP || uni.getStorageSync('appType') == AppType.MINI) {
+						// 				url = '/pages/login/login'
+						// 			} else {
+						// 				url = '/pages/accountLogin/accountLogin'
+						// 			}
+						// 			// #endif
 
-									// #ifdef APP-PLUS
-									var url = '/pages/accountLogin/accountLogin'
-									// #endif
-									uni.navigateTo({
-										url: url
-									})
-								} else {
-									uni.switchTab({
-										url: '/pages/index/index'
-									})
-								}
-							}
-						})
+						// 			// #ifdef APP-PLUS
+						// 			var url = '/pages/accountLogin/accountLogin'
+						// 			// #endif
+						// 			uni.navigateTo({
+						// 				url: url
+						// 			})
+						// 		} else {
+						// 			uni.switchTab({
+						// 				url: '/pages/index/index'
+						// 			})
+						// 		}
+						// 	}
+						// })
 					} else {
-						uni.showModal({
-							title: "提示",
-							content: "登录已过期",
-							cancelText: "取消",
-							confirmText: "确定",
-							success: res => {
-								if (res.confirm) {
-									// 跳转登录页面
-									// #ifdef H5
-									uni.navigateTo({
-										url: uni.getStorageSync('appType') == AppType.MP ? '/pages/login/login' : '/pages/accountLogin/accountLogin'
-									})
-									// #endif
+						// uni.showModal({
+						// 	title: "提示",
+						// 	content: "登录已过期",
+						// 	cancelText: "取消",
+						// 	confirmText: "确定",
+						// 	success: res => {
+						// 		if (res.confirm) {
+						// 			// 跳转登录页面
+						// 			// #ifdef H5
+						// 			uni.navigateTo({
+						// 				url: uni.getStorageSync('appType') == AppType.MP ? '/pages/login/login' : '/pages/accountLogin/accountLogin'
+						// 			})
+						// 			// #endif
 
-									// #ifdef MP-WEIXIN
-									uni.navigateTo({
-										url: '/pages/login/login'
-									})
-									// #endif
-								} else {
-									uni.switchTab({
-										url: '/pages/index/index'
-									})
-								}
-							}
-						})
+						// 			// #ifdef MP-WEIXIN
+						// 			uni.navigateTo({
+						// 				url: '/pages/login/login'
+						// 			})
+						// 			// #endif
+						// 		} else {
+						// 			uni.switchTab({
+						// 				url: '/pages/index/index'
+						// 			})
+						// 		}
+						// 	}
+						// })
 				// 		// 跳转登录页面
 				// 		// #ifdef H5
 				// 		uni.navigateTo({

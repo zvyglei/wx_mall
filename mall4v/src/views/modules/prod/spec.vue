@@ -16,7 +16,7 @@
         <el-button type="primary"
                    icon="el-icon-plus"
                    size="small"
-                   v-if="isAuth('shop:pickAddr:save')"
+                   v-if="isAuth('prod:spec:save')"
                    @click.stop="addOrUpdateHandle()">新增</el-button>
       </template>
 
@@ -135,7 +135,7 @@ export default {
             this.$message({
               message: '操作成功',
               type: 'success',
-              duration: 1500,
+              duration: 500,
               onClose: () => {
                 this.getDataList(this.page)
               }

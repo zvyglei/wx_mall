@@ -46,10 +46,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new YamiShopBindException("验证码已过期，请重新发送验证码校验");
         } else {
             String checkRegisterSmsFlagMobile = RedisUtil.get(checkRegisterSmsFlag);
-            if (!Objects.equals(checkRegisterSmsFlagMobile, userRegisterParam.getMobile())) {
+            if (!Objects.equals(checkRegisterSmsFlagMobile, userRegisterParam.getUserMobile())) {
                 // 验证码已过期，请重新发送验证码校验
                 throw new YamiShopBindException("验证码已过期，请重新发送验证码校验");
             }
         }
+    }
+
+    @Override
+    public Boolean updateScoreById(User user) {
+        return userMapper.updateScoreById(user);
+    }
+
+    @Override
+    public Boolean reduceScoreById(User user) {
+        return userMapper.reduceScoreById(user);
+    }
+
+    @Override
+    public String getRefereeById(String userId) {
+        return userMapper.getRefereeById(userId);
     }
 }

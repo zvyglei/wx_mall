@@ -48,6 +48,12 @@ public class ProductDto {
     private Double price;
 
     /**
+     * 商品销量
+     */
+    @Schema(description = "商品销量" , required = true)
+    private Integer soldNum;
+
+    /**
      * 商品详情
      */
     @Schema(description = "详细描述" )

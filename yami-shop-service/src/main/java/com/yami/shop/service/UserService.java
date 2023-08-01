@@ -26,4 +26,10 @@ public interface UserService extends IService<User> {
      * @param checkRegisterSmsFlag
      */
     void validate(UserRegisterParam userRegisterParam, String checkRegisterSmsFlag);
+
+    Boolean updateScoreById(User user);
+
+    Boolean reduceScoreById(User user);
+
+    String getRefereeById(String userId);
 }

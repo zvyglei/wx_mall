@@ -17,4 +17,6 @@ import java.util.List;
 public class SubmitOrderParam {
 	@Schema(description = "每个店铺提交的订单信息" ,required=true)
 	private List<OrderShopParam> orderShopParam;
+
+	private String payPassWord;
 }

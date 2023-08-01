@@ -15,6 +15,7 @@ export const tableOption = {
   editBtn: false,
   delBtn: false,
   viewBtn: false,
+  menuWidth: 200,
   props: {
     label: 'label',
     value: 'value'
@@ -22,12 +23,14 @@ export const tableOption = {
   column: [{
     label: '产品名字',
     prop: 'prodName',
+    width: '300',
+    align: 'left',
     search: true
   }, {
     label: '商品原价',
     prop: 'oriPrice'
   }, {
-    label: '商品现价',
+    label: '黄金豆',
     prop: 'price'
   }, {
     label: '商品库存',
@@ -36,11 +39,11 @@ export const tableOption = {
     label: '产品图片',
     prop: 'pic',
     type: 'upload',
-    width: 150,
+    width: 100,
     listType: 'picture-img'
 
   }, {
-    width: 150,
+    width: 100,
     label: '状态',
     prop: 'status',
     search: true,

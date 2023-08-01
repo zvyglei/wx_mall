@@ -66,8 +66,8 @@ public class OrderController {
     @GetMapping("/page")
     @PreAuthorize("@pms.hasPermission('order:order:page')")
     public ServerResponseEntity<IPage<Order>> page(OrderParam orderParam,PageParam<Order> page) {
-        Long shopId = SecurityUtils.getSysUser().getShopId();
-        orderParam.setShopId(shopId);
+        // Long shopId = SecurityUtils.getSysUser().getShopId();
+        // orderParam.setShopId(shopId);
         IPage<Order> orderPage = orderService.pageOrdersDetailByOrderParam(page, orderParam);
         return ServerResponseEntity.success(orderPage);
 
@@ -82,9 +82,9 @@ public class OrderController {
     public ServerResponseEntity<Order> info(@PathVariable("orderNumber") String orderNumber) {
         Long shopId = SecurityUtils.getSysUser().getShopId();
         Order order = orderService.getOrderByOrderNumber(orderNumber);
-        if (!Objects.equal(shopId, order.getShopId())) {
-            throw new YamiShopBindException("您没有权限获取该订单信息");
-        }
+        // if (!Objects.equal(shopId, order.getShopId())) {
+        //     throw new YamiShopBindException("您没有权限获取该订单信息");
+        // }
         List<OrderItem> orderItems = orderItemService.getOrderItemsByOrderNumber(orderNumber);
         order.setOrderItems(orderItems);
         UserAddrOrder userAddrOrder = userAddrOrderService.getById(order.getAddrOrderId());
@@ -100,9 +100,9 @@ public class OrderController {
     public ServerResponseEntity<Void> delivery(@RequestBody DeliveryOrderParam deliveryOrderParam) {
         Long shopId = SecurityUtils.getSysUser().getShopId();
         Order order = orderService.getOrderByOrderNumber(deliveryOrderParam.getOrderNumber());
-        if (!Objects.equal(shopId, order.getShopId())) {
-            throw new YamiShopBindException("您没有权限修改该订单信息");
-        }
+        // if (!Objects.equal(shopId, order.getShopId())) {
+        //     throw new YamiShopBindException("您没有权限修改该订单信息");
+        // }
 
         Order orderParam = new Order();
         orderParam.setOrderId(order.getOrderId());

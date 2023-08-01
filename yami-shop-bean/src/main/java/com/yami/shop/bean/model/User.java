@@ -7,6 +7,7 @@ package com.yami.shop.bean.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,6 +27,16 @@ public class User implements Serializable {
     private String userId;
 
     /**
+     * 微信openid
+     */
+    private String wxOpenId;
+
+    /**
+     * 手机号码
+     */
+    private String userMobile;
+
+    /**
      * 用户昵称
      */
     private String nickName;
@@ -35,6 +46,35 @@ public class User implements Serializable {
      */
 
     private String realName;
+
+    /**
+     * 身份证号
+     */
+    private String idCard;
+
+
+    /**
+     * 身份证人像面照片
+     */
+    private String idCardImg1;
+
+
+    /**
+     * 身份证国徽面照片
+     */
+    private String idCardImg2;
+
+    /**
+     * M(男) or F(女)
+     */
+    private String sex;
+
+    /**
+     * 例如：2009-11-27
+     */
+
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private String birthDate;
 
     /**
      * 用户邮箱
@@ -55,15 +95,8 @@ public class User implements Serializable {
     private String payPassword;
 
     /**
-     * 手机号码
-     */
-
-    private String userMobile;
-
-    /**
      * 修改时间
      */
-
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date modifyTime;
 
@@ -100,18 +133,6 @@ public class User implements Serializable {
     private String userMemo;
 
     /**
-     * M(男) or F(女)
-     */
-    private String sex;
-
-    /**
-     * 例如：2009-11-27
-     */
-
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    private String birthDate;
-
-    /**
      * 头像图片路径
      */
     private String pic;
@@ -122,8 +143,27 @@ public class User implements Serializable {
     private Integer status;
 
     /**
+     * 认证状态 0-未认证 1-待审核 2-已认证
+     */
+    private Integer verifyStatus;
+
+    /**
+     * 审核意见
+     */
+    private String verifyRemark;
+
+    /**
      * 积分
      */
     private Integer score;
 
+    /**
+     * 推荐人
+     */
+    private String referee;
+
+    /**
+     * 推荐码
+     */
+    private String refereeCode;
 }

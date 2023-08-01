@@ -14,8 +14,20 @@ import lombok.Data;
 @Schema(description = "设置用户信息")
 public class UserRegisterParam {
 
+	@Schema(description = "手机号" )
+	private String userMobile;
+
 	@Schema(description = "密码" )
 	private String passWord;
+
+	@Schema(description = "支付密码" )
+	private String payPassWord;
+
+	@Schema(description = "验证码" )
+	private String code;
+
+	@Schema(description = "微信code" )
+	private String wxcode;
 
 	@Schema(description = "邮箱" )
 	private String userMail;
@@ -25,9 +37,6 @@ public class UserRegisterParam {
 
 	@Schema(description = "用户名" )
 	private String userName;
-
-	@Schema(description = "手机号" )
-	private String mobile;
 
 	@Schema(description = "头像" )
 	private String img;
@@ -40,4 +49,7 @@ public class UserRegisterParam {
 
 	@Schema(description = "用户id" )
 	private Long userId;
+
+	@Schema(description = "wxOpenId" )
+	private String wxOpenId;
 }

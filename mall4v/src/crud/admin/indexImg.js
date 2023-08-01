@@ -15,6 +15,7 @@ export const tableOption = {
   editBtn: false,
   delBtn: false,
   viewBtn: false,
+  menuWidth: 200,
   props: {
     label: 'label',
     value: 'value'

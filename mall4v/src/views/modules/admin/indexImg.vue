@@ -25,7 +25,6 @@
       <template slot-scope="scope"
                 slot="imgUrl">
         <img v-if="scope.row.imgUrl" :src="scope.row.imgUrl"
-             width="100"
              height="100" />
         <img v-else src="~@/assets/img/def.png"
              width="100"
@@ -134,7 +133,7 @@ export default {
           this.$message({
             message: '操作成功',
             type: 'success',
-            duration: 1500,
+            duration: 500,
             onClose: () => {
               this.getDataList()
             }

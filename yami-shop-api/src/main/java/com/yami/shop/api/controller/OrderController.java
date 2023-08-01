@@ -11,10 +11,12 @@ import com.yami.shop.bean.app.param.OrderShopParam;
 import com.yami.shop.bean.app.param.SubmitOrderParam;
 import com.yami.shop.bean.event.ConfirmOrderEvent;
 import com.yami.shop.bean.model.Order;
+import com.yami.shop.bean.model.User;
 import com.yami.shop.bean.model.UserAddr;
 import com.yami.shop.common.exception.YamiShopBindException;
 import com.yami.shop.common.util.Arith;
 import com.yami.shop.security.api.util.SecurityUtils;
+import com.yami.shop.security.common.manager.PasswordManager;
 import com.yami.shop.service.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +24,7 @@ import cn.hutool.core.bean.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import com.yami.shop.common.response.ServerResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +55,12 @@ public class OrderController {
     private BasketService basketService;
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PasswordManager passwordManager;
 
 
     /**
@@ -137,6 +146,13 @@ public class OrderController {
     @Operation(summary = "提交订单，返回支付流水号" , description = "根据传入的参数判断是否为购物车提交订单，同时对购物车进行删除，用户开始进行支付")
     public ServerResponseEntity<OrderNumbersDto> submitOrders(@Valid @RequestBody SubmitOrderParam submitOrderParam) {
         String userId = SecurityUtils.getUser().getUserId();
+        User user = userService.getById(userId);
+        String password2 = passwordManager.decryptPassword(submitOrderParam.getPayPassWord());
+        String password = passwordManager.decryptPassword(user.getPayPassword());
+        if (!passwordManager.decryptPassword(user.getPayPassword()).equals(passwordManager.decryptPassword(submitOrderParam.getPayPassWord()))) {
+            throw new YamiShopBindException("支付密码错误");
+        }
+
         ShopCartOrderMergerDto mergerOrder = orderService.getConfirmOrderCache(userId);
         if (mergerOrder == null) {
             throw new YamiShopBindException("订单已过期，请重新下单");

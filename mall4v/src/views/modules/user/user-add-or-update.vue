@@ -7,16 +7,16 @@
              ref="dataForm"
              @keyup.enter.native="dataFormSubmit()"
              label-width="80px">
-      <el-form-item label="用户头像"
+      <!-- <el-form-item label="用户头像"
                     prop="pic">
         <img :src="dataForm.pic"
              class="image">
-      </el-form-item>
-      <el-form-item label="用户昵称"
-                    prop="nickName">
-        <el-input v-model="dataForm.nickName"
+      </el-form-item> -->
+      <el-form-item label="用户姓名"
+                    prop="realName">
+        <el-input v-model="dataForm.realName"
                   :disabled="true"
-                  placeholder="用户昵称"></el-input>
+                  placeholder="用户姓名"></el-input>
       </el-form-item>
       <el-form-item label="状态"
                     size="mini"
@@ -94,7 +94,7 @@ export default {
             this.$message({
               message: '操作成功',
               type: 'success',
-              duration: 1500,
+              duration: 500,
               onClose: () => {
                 this.visible = false
                 this.$emit('refreshDataList', this.page)

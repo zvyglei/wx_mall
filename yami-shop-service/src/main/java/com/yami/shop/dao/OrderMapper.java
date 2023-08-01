@@ -6,6 +6,7 @@ package com.yami.shop.dao;
 
 import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yami.shop.bean.app.dto.IndexOrderDto;
 import com.yami.shop.bean.app.dto.MyOrderDto;
 import com.yami.shop.bean.app.dto.OrderCountData;
 import com.yami.shop.bean.distribution.UserShoppingDataDto;
@@ -125,5 +126,7 @@ public interface OrderMapper extends BaseMapper<Order> {
      * @return
      */
     OrderCountData getOrderCount(String userId);
+
+    List<IndexOrderDto> orderRecords();
 
 }

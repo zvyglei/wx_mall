@@ -376,7 +376,7 @@ export default {
               this.$message({
                 message: '请选择可配送区域',
                 type: 'error',
-                duration: 1500
+                duration: 500
               })
               return
             }
@@ -403,7 +403,7 @@ export default {
             this.$message({
               message: '操作成功',
               type: 'success',
-              duration: 1500,
+              duration: 500,
               onClose: () => {
                 this.visible = false
                 this.$emit('refreshDataList', this.page)

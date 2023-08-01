@@ -89,7 +89,7 @@ http.interceptors.response.use(response => {
       Message({
         message: error.response.data,
         type: 'error',
-        duration: 1500,
+        duration: 500,
         customClass: 'element-error-message-zindex'
       })
       break
@@ -101,7 +101,7 @@ http.interceptors.response.use(response => {
       Message({
         message: 'http请求方式有误',
         type: 'error',
-        duration: 1500,
+        duration: 500,
         customClass: 'element-error-message-zindex'
       })
       break
@@ -109,7 +109,7 @@ http.interceptors.response.use(response => {
       Message({
         message: '服务器出了点小差，请稍后再试',
         type: 'error',
-        duration: 1500,
+        duration: 500,
         customClass: 'element-error-message-zindex'
       })
       break
@@ -117,7 +117,7 @@ http.interceptors.response.use(response => {
       Message({
         message: '服务器不支持当前请求所需要的某个功能',
         type: 'error',
-        duration: 1500,
+        duration: 500,
         customClass: 'element-error-message-zindex'
       })
       break

@@ -10,6 +10,7 @@ export const tableOption = {
   addBtn: false,
   editBtn: false,
   delBtn: false,
+  menuWidth: 200,
   column: [
     {
       label: '标签名称',
