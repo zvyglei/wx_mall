@@ -66,10 +66,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = "product", key = "#product.prodId"),
-            @CacheEvict(cacheNames = "skuList", key = "#product.prodId")
-    })
+    // @Caching(evict = {
+    //         @CacheEvict(cacheNames = "product", key = "#product.prodId"),
+    //         @CacheEvict(cacheNames = "skuList", key = "#product.prodId")
+    // })
     public void updateProduct(Product product, Product dbProduct) {
 
         productMapper.updateById(product);
@@ -109,17 +109,16 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
 
     @Override
-    @Cacheable(cacheNames = "product", key = "#prodId")
     public Product getProductByProdId(Long prodId) {
         return productMapper.selectById(prodId);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @Caching(evict = {
-            @CacheEvict(cacheNames = "product", key = "#prodId"),
-            @CacheEvict(cacheNames = "skuList", key = "#prodId")
-    })
+    // @Caching(evict = {
+    //         @CacheEvict(cacheNames = "product", key = "#prodId"),
+    //         @CacheEvict(cacheNames = "skuList", key = "#prodId")
+    // })
     public void removeProductByProdId(Long prodId) {
         Product dbProduct = getProductByProdId(prodId);
 
@@ -141,10 +140,10 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
-    @Caching(evict = {
-            @CacheEvict(cacheNames = "product", key = "#prodId"),
-            @CacheEvict(cacheNames = "skuList", key = "#prodId")
-    })
+    // @Caching(evict = {
+    //         @CacheEvict(cacheNames = "product", key = "#prodId"),
+    //         @CacheEvict(cacheNames = "skuList", key = "#prodId")
+    // })
     public void removeProductCacheByProdId(Long prodId) {
 
 
@@ -166,8 +165,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
-    public IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, Long categoryId, String keywords) {
-        return productMapper.pageByCategoryId(page, categoryId, keywords);
+    public IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, Long categoryId, String keywords, Integer flashSale) {
+        return productMapper.pageByCategoryId(page, categoryId, keywords, flashSale);
     }
 
     @Override

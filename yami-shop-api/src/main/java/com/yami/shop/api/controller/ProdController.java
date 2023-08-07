@@ -55,8 +55,22 @@ public class ProdController {
             @Parameter(name = "categoryId", description = "分类ID" , required = true),
     })
     public ServerResponseEntity<IPage<ProductDto>> prodList(
-            PageParam<ProductDto> page, String keywords) {
-        IPage<ProductDto> productPage = prodService.pageByCategoryId(page, null, keywords);
+            PageParam<ProductDto> page, Long categoryId, String keywords) {
+        page.setSize(999999999);
+        IPage<ProductDto> productPage = prodService.pageByCategoryId(page, categoryId, keywords, 0);
+        return ServerResponseEntity.success(productPage);
+    }
+
+
+    @GetMapping("/pageFlashSaleProd")
+    @Operation(summary = "通过分类id商品列表信息" , description = "根据分类ID获取该分类下所有的商品列表信息")
+    @Parameters({
+            @Parameter(name = "categoryId", description = "分类ID" , required = true),
+    })
+    public ServerResponseEntity<IPage<ProductDto>> prodFlashSaleList(
+            PageParam<ProductDto> page, Long categoryId, String keywords) {
+        page.setSize(999999999);
+        IPage<ProductDto> productPage = prodService.pageByCategoryId(page, categoryId, keywords, 1);
         return ServerResponseEntity.success(productPage);
     }
 

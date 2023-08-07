@@ -36,6 +36,19 @@ export const tableOption = {
     label: '商品库存',
     prop: 'totalStocks'
   }, {
+    label: '抢购开始时间',
+    prop: 'flashSaleStart',
+    width: 160
+
+  }, {
+    label: '抢购结束时间',
+    prop: 'flashSaleEnd',
+    width: 160
+  }, {
+    label: '抢购时间',
+    prop: 'flashSaleTime',
+    width: 100
+  }, {
     label: '商品图片',
     prop: 'pic',
     type: 'upload',

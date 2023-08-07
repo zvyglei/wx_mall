@@ -46,39 +46,39 @@ public class PaySuccessListener {
     public void defaultShopCartEvent(PaySuccessOrderEvent event) {
         List<Order> orders = event.getOrders();
         if (CollUtil.isNotEmpty(orders)) {
-            String userId = orders.get(0).getUserId();
-            // 计算分成
-            double sum = orders.stream().filter(x -> x.getIsPayed() == 1).mapToDouble(com.yami.shop.bean.model.Order::getTotal).sum();
-            double score = Math.ceil(Arith.mul(sum, 0.05));
-            // 根据用户id，获取推荐人id
-            String referee = userService.getRefereeById(userId);
+            // String userId = orders.get(0).getUserId();
+            // // 计算分成
+            // double sum = orders.stream().filter(x -> x.getIsPayed() == 1).mapToDouble(com.yami.shop.bean.model.Order::getTotal).sum();
+            // double score = Math.ceil(Arith.mul(sum, 0.05));
+            // // 根据用户id，获取推荐人id
+            // String referee = userService.getRefereeById(userId);
             // 给推荐人添加积分
-            if (StringUtils.isNotBlank(referee)) {
-                User user = new User();
-                user.setUserId(referee);
-                user.setScore((int) score);
-                userService.updateScoreById(user);
-
-                // 添加账单信息
-                UserBill bill = new UserBill();
-                bill.setUserId(userId);
-                bill.setOrderId(null);
-                bill.setBillType(BillType.IN.value());
-                bill.setScore((int) score);
-                bill.setBillDesc("代理分成");
-                bill.setCreateTime(new Date());
-                userBillService.save(bill);
-
-                // 发送微信通知
-                User byId = userService.getById(user.getUserId());
-                ThreadUtil.execAsync(() -> {
-                    WxTemplateMsgBo templateMsg = new WxTemplateMsgBo();
-                    templateMsg.setScore(String.valueOf(byId.getScore()));
-                    templateMsg.setShopScore("+" + (int) score);
-                    templateMsg.setShopTime(new Date());
-                    wxServerService.sendUnionMsg(templateMsg, user.getWxOpenId());
-                });
-            }
+            // if (StringUtils.isNotBlank(referee)) {
+            //     User user = new User();
+            //     user.setUserId(referee);
+            //     user.setScore((int) score);
+            //     userService.updateScoreById(user);
+            //
+            //     // 添加账单信息
+            //     UserBill bill = new UserBill();
+            //     bill.setUserId(userId);
+            //     bill.setOrderId(null);
+            //     bill.setBillType(BillType.IN.value());
+            //     bill.setScore((int) score);
+            //     bill.setBillDesc("代理分成");
+            //     bill.setCreateTime(new Date());
+            //     userBillService.save(bill);
+            //
+            //     // 发送微信通知
+            //     User byId = userService.getById(user.getUserId());
+            //     ThreadUtil.execAsync(() -> {
+            //         WxTemplateMsgBo templateMsg = new WxTemplateMsgBo();
+            //         templateMsg.setScore(String.valueOf(byId.getScore()));
+            //         templateMsg.setShopScore("+" + (int) score);
+            //         templateMsg.setShopTime(new Date());
+            //         wxServerService.sendUnionInMsg(templateMsg, user.getWxOpenId(), "代理分成");
+            //     });
+            // }
             // 更新商品销量
             for (Order order : orders) {
                 List<OrderItem> orderItems = orderItemService.getOrderItemsByOrderNumber(order.getOrderNumber());

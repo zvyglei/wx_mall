@@ -70,7 +70,7 @@ public interface ProductMapper extends BaseMapper<Product> {
      * @param categoryId
      * @return
      */
-    IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, @Param("categoryId") Long categoryId, @Param("keywords") String keywords);
+    IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, @Param("categoryId") Long categoryId, @Param("keywords") String keywords, @Param("flashSale") Integer flashSale);
 
     /**
      * 根据商品名称和排序分页获取商品

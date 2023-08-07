@@ -42,7 +42,7 @@
 								<view class="price-nums">
 									<image src="/static/jindou.png" style="width: 32rpx; height: 32rpx; margin-bottom: -6rpx;"></image>
 									<text class="big-num">{{wxs.parsePrice(item.price)[0]}}</text>
-									<!-- <text class="small-num">.{{wxs.parsePrice(item.price)[1]}}</text></text> -->
+									<text class="small-num">.{{wxs.parsePrice(item.price)[1]}}</text></text>
 									<text class="prodcount">x{{item.prodCount}}</text>
 								</view>
 							</view>
@@ -99,12 +99,14 @@
 							<view class="item-tit">订单总额：</view>
 							<view class="item-txt price">
 								<text class="big-num">{{wxs.parsePrice(total)[0]}}</text>
+								<text class="big-num">.{{wxs.parsePrice(total)[1]}}</text>
 							</view>
 						</view>
 						<view class="item">
 							<view class="item-tit">运费：</view>
 							<view class="item-txt price">
 								<text class="big-num">{{wxs.parsePrice(transfee)[0]}}</text>
+								<text class="big-num">.{{wxs.parsePrice(transfee)[1]}}</text>
 							</view>
 						</view>
 						<!-- <view class="item">
@@ -120,6 +122,7 @@
 								小计：
 								<image src="/static/jindou.png" style="width: 32rpx; height: 32rpx; margin-bottom: -6rpx;"></image>
 								<text class="big-num">{{wxs.parsePrice(actualTotal)[0]}}</text>
+								<text class="big-num">.{{wxs.parsePrice(actualTotal)[1]}}</text>
 							</view>
 						</view>
 					</view>
@@ -135,6 +138,7 @@
 						<view class="price">
 							<image src="/static/jindou.png" style="width: 32rpx; height: 32rpx; margin-bottom: -6rpx;"></image>
 							<text class="big-num">{{wxs.parsePrice(actualTotal)[0]}}</text>
+								<text class="big-num">.{{wxs.parsePrice(actualTotal)[1]}}</text>
 						</view>
 					</view>
 				</view>
@@ -246,6 +250,7 @@
 				this.userAddr = currPage.item
 			}
 
+			this.payPasswordShow = false
 			//获取订单数据
 			this.loadOrderData();
 		},

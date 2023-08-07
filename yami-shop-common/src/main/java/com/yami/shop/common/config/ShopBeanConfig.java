@@ -4,6 +4,7 @@
 
 package com.yami.shop.common.config;
 
+import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
 import com.yami.shop.common.bean.AliDaYu;
 import com.yami.shop.common.bean.ImgUpload;
@@ -22,6 +23,7 @@ public class ShopBeanConfig {
 
     @Bean
     public AES tokenAes() {
+        SecureUtil.disableBouncyCastle();
     	return new AES(shopBasicConfig.getTokenAesKey().getBytes());
     }
 

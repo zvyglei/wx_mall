@@ -36,7 +36,7 @@ public class SmsController {
         templateMsg.setScore("399");
         templateMsg.setShopScore("100");
         templateMsg.setShopTime(new Date());
-        wxServerService.sendUnionMsg(templateMsg, openId);
+        wxServerService.sendUnionInMsg(templateMsg, openId, null);
     }
 
     /**

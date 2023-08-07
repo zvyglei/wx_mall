@@ -1,6 +1,6 @@
 <template>
   <div class="mod-prod-info">
-    <el-form :model="dataForm" ref="dataForm" label-width="100px">
+    <el-form :model="dataForm" ref="dataForm" label-width="120px">
       <el-form-item label="商品图片">
         <mul-pic-upload v-model="dataForm.imgs" />
       </el-form-item>
@@ -14,7 +14,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="产品分类" :rules="[{ required: true, message: '请选择产品分类', trigger: 'change'}]" prop="categoryId">
+          <el-form-item label="产品分类" :rules="[{ required: true, message: '请选择产品分类', trigger: 'change'}]"
+                        prop="categoryId">
             <el-cascader expand-trigger="hover" :options="category.list" :props="category.props"
                          v-model="category.selected" change-on-select @change="handleCategoryChange">
             </el-cascader>
@@ -22,6 +23,35 @@
         </el-col>
       </el-row>
       <el-row>
+        <el-col :span="8">
+          <el-form-item label="抢购开始时间" prop="flashSaleStart" :rules="[
+                      { required: true, message: '抢购开始时间不能为空'}
+                    ]">
+            <el-date-picker v-model="dataForm.flashSaleStart" type="datetime" placeholder="选择日期时间"
+                            default-time="12:00:00" value-format="yyyy-MM-dd HH:mm:ss">
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="抢购时间" prop="flashSaleTime" :rules="[
+                      { required: true, message: '抢购时间不能为空'}
+                    ]">
+            <el-input-number v-model="dataForm.flashSaleTime" @change="handleChange" :min="10"></el-input-number> 秒
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="18">
+          <el-form-item label="指定可抢会员" prop="prodName">
+            <el-select v-model="dataForm.flashSaleUser" multiple collapse-tags style="width: 100%" filterable remote
+                       clearable :remote-method="remoteMethod" placeholder="请输入手机号或真实姓名查询">
+              <el-option v-for="item in saleUsers" :key="item.userId" :label="`${item.realName}（${item.userMobile}）`"
+                         :value="item.userId">
+              </el-option>
+            </el-select>
+            <div style="color: #8a919f">不指定则所有会员都可以参与抢购！</div>
+          </el-form-item>
+        </el-col>
         <el-col :span="18">
           <el-form-item label="商品名称" prop="prodName" :rules="[
                       { required: true, message: '商品名称不能为空'},
@@ -94,6 +124,7 @@
             label: 'categoryName'
           }
         },
+        saleUsers: [],
         // 规格列表
         dataForm: {
           prodName: '',
@@ -106,6 +137,8 @@
           tagList: [],
           content: '',
           status: 1,
+          flashSaleStart: undefined,
+          flashSaleTime: 10,
           deliveryMode: {
             hasShopDelivery: false,
             hasUserPickUp: false
@@ -131,9 +164,17 @@
     activated () {
       this.dataForm.prodId = this.$route.query.prodId
       this.getDataList()
-      this.getCategoryList()
     },
     methods: {
+      remoteMethod (query) {
+        this.$http({
+          url: this.$http.adornUrl(`/admin/user/search?keywords=${query}`),
+          method: 'get',
+          params: this.$http.adornParams()
+        }).then(({ data }) => {
+          this.saleUsers = data
+        })
+      },
       // 获取分类数据
       getDataList () {
         // this.getTagList()
@@ -182,7 +223,6 @@
           if (!valid) {
             return
           }
-          console.log(this.dataForm);
           if (!this.dataForm.imgs) {
             this.errorMsg('请选择图片上传')
             return
@@ -203,6 +243,8 @@
           param.deliveryModeVo = this.dataForm.deliveryMode
           // 商品主图
           param.pic = this.dataForm.imgs.split(',')[0]
+          // 抢购
+          param.flashSale = 1
           this.$http({
             url: this.$http.adornUrl(`/prod/prod`),
             method: param.prodId ? 'put' : 'post',
@@ -215,13 +257,25 @@
               onClose: () => {
                 this.visible = false
                 this.$store.commit('common/removeMainActiveTab')
-                this.$router.push({ name: 'prod-prodList' })
+                this.$router.push({ name: 'prod-prodFlashSaleList' })
                 this.$emit('refreshDataList')
               }
             })
           })
         })
       }),
+      // // 限制图片上传大小
+      // beforeAvatarUpload (file) {
+      //   const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif' || file.type === 'image/jpg'
+      //   if (!isJPG) {
+      //     this.$message.error('上传图片只能是jpeg/jpg/png/gif 格式!')
+      //   }
+      //   const isLt2M = file.size / 1024 / 1024 < 2
+      //   if (!isLt2M) {
+      //     this.$message.error('上传图片大小不能超过 2MB!')
+      //   }
+      //   return isLt2M && isJPG
+      // },
       paramSetPriceAndStocks (param) {
         // 获取规格属性信息
         // param.skuList = this.$refs.prodSpec.getTableSpecData()

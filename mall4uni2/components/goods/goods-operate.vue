@@ -21,8 +21,28 @@
 			</view> -->
 		</view>
 		<view class="right">
-			<u-button style="width: 248rpx;" type="info" @click="addShoppingCart">加入购物车</u-button>
-			<u-button style="width: 248rpx;" type="primary" @click="buyNow">立即购买</u-button>
+			<u-button v-if="data.flashSale === 0"  style="width: 248rpx;" type="info" @click="addShoppingCart">加入购物车</u-button>
+			<u-button v-if="data.flashSale === 0" style="width: 248rpx;" type="primary" @click="buyNow">立即购买</u-button>
+			<view v-else class="">
+				<u-button v-show="!lose" style="width: 248rpx;" type="error" @click="buyNow" :disabled="!start && (timeData.hours > 0 || timeData.minutes > 0 || timeData.seconds > 0)">
+					<u-count-down v-if="!start" :time="startCount" format="HH:mm:ss" @change="onChange" @finish="onFinish">
+						<view class="time" style="width: 280rpx;">
+							{{ timeData.hours >= 10 ? timeData.hours: '0' + timeData.hours}} :
+							{{ timeData.minutes >= 10 ? timeData.minutes: '0' + timeData.minutes }} :
+							{{ timeData.seconds >= 10 ? timeData.seconds: '0' + timeData.seconds }}
+							开始抢购
+						</view>
+					</u-count-down>
+					<u-count-down v-if="start" :time="saleCount" format="HH:mm:ss" @change="onSaleChange" @finish="onSaleFinish">
+						<view class="time" style="width: 280rpx;">
+							{{ saleTimeData.hours >= 10 ? saleTimeData.hours: '0' + saleTimeData.hours}} :
+							{{ saleTimeData.minutes >= 10 ? saleTimeData.minutes: '0' + saleTimeData.minutes }} :
+							{{ saleTimeData.seconds >= 10 ? saleTimeData.seconds: '0' + saleTimeData.seconds }}
+							开始抢购
+						</view>
+					</u-count-down>
+				</u-button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -39,7 +59,52 @@
 				}
 			}
 		},
+		data() {
+			return {
+				lose: false,
+				start: false,
+				timeData: {},
+				saleTimeData: {},
+				startCount: 0,
+				saleCount: 0
+			}
+		},
+		/**
+		 * 生命周期函数--监听页面显示
+		 */
+		onLoad: function() {
+
+		},
 		methods: {
+			onChange(e) {
+				if (e.hours > 0 || e.minutes > 0 || e.seconds > 0) {
+					this.timeData = e
+					this.start = false
+				}
+			},
+			onFinish() {
+				this.start = true
+				this.saleCount = new Date(this.data.flashSaleEnd) - new Date()
+			},
+			onSaleChange(e) {
+				this.saleTimeData = e
+			},
+			onSaleFinish() {
+				this.lose = true
+			},
+			init(data) {
+				if (data.flashSale === 1) {
+					var start = new Date(data.flashSaleStart)
+					var end = new Date(data.flashSaleEnd)
+					if (start > new Date()) {
+						this.startCount = start - new Date()
+						this.start = false
+					} else if (start < new Date() && new Date() < end) {
+						this.saleCount = end - new Date()
+						this.start = true
+					}
+				}
+			},
 			// 加入购物车
 			addShoppingCart() {
 				this.$emit('addShoppingCart');
@@ -47,9 +112,10 @@
 
 			// 立即购买
 			buyNow() {
+				
 				this.$emit('buyNow');
 			},
-			
+
 			// 去首页
 			toHome() {
 				wx.switchTab({
@@ -68,6 +134,12 @@
 </script>
 
 <style lang="scss" scoped>
+	/deep/ .u-count-down {
+		color: #fff !important;
+		font-size: 28rpx !important;
+		width: 150rpx;
+	}
+
 	.slot {
 		position: fixed;
 		bottom: 0;

@@ -5,7 +5,7 @@
 		<view class="con">
 			<view class="title">
 				<view>{{ principal ? '' : '你好' }}</view>
-				<view>{{ '欢迎来到积分商城' }}</view>
+				<view>{{ '欢迎来到黄金豆商城' }}</view>
 			</view>
 			<!-- 登录 -->
 			<view class="login-form">
@@ -20,7 +20,7 @@
 				</view>
 				<view class="tip">未注册的手机号验证后自动创建账户</view>
 			</view>
-			
+
 			<view>
 				<button :class="['authorized-btn', principal && principal.length == 11 ? 'authorized-btn-active' : 'authorized-btn-inactive']"
 					:disabled="!principal" @tap="login">获取短信验证码</button>

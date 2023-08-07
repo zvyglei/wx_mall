@@ -4,6 +4,7 @@
 
 package com.yami.shop.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -83,7 +84,7 @@ public interface ProductService extends IService<Product> {
      * @param categoryId
      * @return
      */
-    IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, Long categoryId, String keywords);
+    IPage<ProductDto> pageByCategoryId(Page<ProductDto> page, Long categoryId, String keywords, Integer flashSale);
 
     /**
      * 根据商品名称
@@ -110,5 +111,4 @@ public interface ProductService extends IService<Product> {
     IPage<ProductDto> collectionProds(PageParam page, String userId);
 
     Boolean updateSoldNumByOrderItem(Long prodId, Integer prodCount);
-
 }

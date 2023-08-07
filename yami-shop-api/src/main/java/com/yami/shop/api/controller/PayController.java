@@ -39,7 +39,6 @@ public class PayController {
         YamiUser user = SecurityUtils.getUser();
         String userId = user.getUserId();
 
-
         PayInfoDto payInfo = payService.pay(userId, payParam);
         payService.paySuccess(payInfo.getPayNo(), "");
         return ServerResponseEntity.success();

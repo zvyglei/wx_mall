@@ -98,14 +98,13 @@ public class PayServiceImpl implements PayService {
         }
 
         // 校验余额
-        int amount = Double.valueOf(payAmount).intValue();
         User user = userMapper.selectById(userId);
         if (user.getScore() < payAmount) {
             throw new YamiShopBindException("余额不足！");
         } else {
             User scoreUser = new User();
             scoreUser.setUserId(userId);
-            scoreUser.setScore(amount);
+            scoreUser.setScore(payAmount);
             Boolean reduce = userMapper.reduceScoreById(scoreUser);
             if (!reduce) {
                 throw new YamiShopBindException("支付失败，请重新选购！");
@@ -117,19 +116,19 @@ public class PayServiceImpl implements PayService {
         bill.setUserId(userId);
         bill.setOrderId(payParam.getOrderNumbers());
         bill.setBillType(BillType.OUT.value());
-        bill.setScore(amount);
+        bill.setScore(payAmount);
         bill.setBillDesc("商城消费");
         bill.setCreateTime(new Date());
         userBillService.save(bill);
 
         // 发送微信通知
-        int finalPayAmount = (int) payAmount;
+        double finalPayAmount = payAmount;
         ThreadUtil.execAsync(() -> {
             WxTemplateMsgBo templateMsg = new WxTemplateMsgBo();
             templateMsg.setScore(String.valueOf(user.getScore() - finalPayAmount));
             templateMsg.setShopScore("-" + finalPayAmount);
             templateMsg.setShopTime(new Date());
-            wxServerService.sendUnionMsg(templateMsg, user.getWxOpenId());
+            wxServerService.sendUnionOutMsg(templateMsg, user.getWxOpenId());
         });
 
         prodName.substring(0, Math.min(100, prodName.length() - 1));

@@ -53,10 +53,10 @@
 						</template>
 					</u-input>
 				</u-form-item>
-				<u-form-item prop="refereeCode" ref="refereeCode">
+				<!-- <u-form-item prop="refereeCode" ref="refereeCode">
 					<u-input type="number" border="bottom" v-model="formData.refereeCode" placeholder="选填:邀请码(6位)" clearable
 						font-size="16" maxlength="6"></u-input>
-				</u-form-item>
+				</u-form-item> -->
 			</u--form>
 			<view class="u-m-t-30">
 				<u-button type="primary" text="注 册" @tap="register"></u-button>
@@ -85,8 +85,7 @@
 					code: '',
 					passWord: '',
 					passWord2: '',
-					payPassWord: '',
-					refereeCode: ''
+					payPassWord: ''
 				},
 				showPassWord: false,
 				showPassWord2: false,
@@ -248,7 +247,6 @@
 	.title {
 		left: 50rpx;
 		top: 50rpx;
-		width: 435rpx;
 		color: rgba(16, 16, 16, 1);
 		font-size: 50rpx;
 		text-align: left;

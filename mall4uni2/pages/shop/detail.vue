@@ -1,7 +1,7 @@
 <template>
 	<view class="page">
 		<!-- 轮播图 -->
-		<u-swiper height="420" :list="imgs" @change="e => currentNum = e.current" :autoplay="false"
+		<u-swiper height="420" :list="imgs" imgMode="scaleToFill" @change="e => currentNum = e.current" :autoplay="false"
 			indicatorStyle="right: 20px">
 			<view slot="indicator" class="indicator-num">
 				<text class="indicator-num__text">{{ currentNum + 1 }}/{{ imgs.length }}</text>
@@ -23,7 +23,7 @@
 		<u-parse class="details-html" :content="goodsDetail.content"></u-parse>
 
 		<!-- 底部操作按钮 -->
-		<GoodsOperate :data="goodsDetail" @addShoppingCart="addShoppingCart" @buyNow="buyNow"></GoodsOperate>
+		<GoodsOperate :data="goodsDetail" @addShoppingCart="addShoppingCart" @buyNow="buyNow" ref="goodsOperate"></GoodsOperate>
 		<!-- 选择sku -->
 		<GoodsSelectSku ref="GoodsSelectSku" @addShoppingCart="addShoppingCart" @buyNow="buyNow" @change="changeSku" @changeNum="changeNum">
 		</GoodsSelectSku>
@@ -78,6 +78,7 @@
 				method: "get",
 				callBack: res => {
 					this.goodsDetail = res
+					this.$refs.goodsOperate.init(res)
 					var skuList = this.goodsDetail.skuList
 					if (skuList.length == 1) {
 						this.selectedSku = {

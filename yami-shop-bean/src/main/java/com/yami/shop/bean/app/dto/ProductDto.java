@@ -4,12 +4,16 @@
 
 package com.yami.shop.bean.app.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yami.shop.bean.model.Transport;
 import com.yami.shop.common.serializer.json.ImgJsonSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -99,6 +103,24 @@ public class ProductDto {
 
     @Schema(description = "运费信息" , required = true)
     private Transport transport;
+
+
+    /**
+     * 抢购 1-是 0-否
+     */
+    private Integer flashSale;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date flashSaleStart;
+
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date flashSaleEnd;
+
+    private Integer flashSaleTime;
+
+    @TableField(typeHandler = FastjsonTypeHandler.class)
+    private List<String> flashSaleUser;
 
     public static interface WithNoContent{}
 

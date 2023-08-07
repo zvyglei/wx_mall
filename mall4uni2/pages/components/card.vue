@@ -1,20 +1,35 @@
 <template>
-	<view class="slot" @click="toDetail(data.prodId)">
-		<image style="width: 100%; height: 340rpx;" :src="data.pic"></image>
+	<view class="slot" :style="{'filter': this.data.flashSale === 1 && !flashSale() ? 'contrast(0.5)' : ''}"
+		@click="toDetail(data.prodId)">
+		<view style="position: relative;">
+			<image style="width: 100%; height: 340rpx;" :src="data.pic"></image>
+			<view class="" v-if="data.flashSale">
+				<image v-if="flashSale()" style="height: 50rpx; width: 80rpx; position: absolute; left: 10rpx; top: 10rpx;"
+					src="@/static/goods/flash-sale.png"></image>
+				<image v-else style="height: 100rpx; width: 100rpx; position: absolute; left: 0; top: 0;" class="flash-sale"
+					src="@/static/goods/lose.png"></image>
+			</view>
+		</view>
 		<view class="inner">
 			<text class="title">{{ data.prodName }}</text>
+			<view class="flash-sale-time u-font-27" v-if="data.flashSale === 1">
+				<text>{{ data.flashSaleStart }}</text>
+				<text>&nbsp;开抢</text>
+			</view>
 			<view class="info">
 				<view class="money">
 					<view class="now">
 						<image src="/static/jindou.png" style="width: 30rpx; height: 30rpx; margin-bottom: -6rpx;"></image>
-						<text>{{ data.price }}</text>
+						<text class="">{{wxs.parsePrice(data.price)[0]}}</text>
+						<text class="">.{{wxs.parsePrice(data.price)[1]}}</text>
 					</view>
 					<view class="old u-m-l-15" v-if="data.oriPrice">
-						<text>￥{{ data.oriPrice }}</text>
+						<text class="">{{wxs.parsePrice(data.oriPrice)[0]}}</text>
+						<text class="">.{{wxs.parsePrice(data.oriPrice)[1]}}</text>
 					</view>
 				</view>
 				<view class="sale">
-					<text>已兑换</text>
+					<text>{{ data.flashSale === 1 ? '已抢购' : '已兑换' }}</text>
 					<text>{{ data.soldNum }}</text>
 				</view>
 			</view>
@@ -22,6 +37,7 @@
 	</view>
 </template>
 
+<script module="wxs" lang="wxs" src="@/wxs/number.wxs"></script>
 <script>
 	export default {
 		props: {
@@ -39,10 +55,15 @@
 			}
 		},
 		methods: {
+			flashSale() {
+				return new Date(this.data.flashSaleEnd) > new Date()
+			},
 			toDetail(prodId) {
-				uni.navigateTo({
-					url: `/pages/shop/detail?prodId=${prodId}`
-				});
+				if (this.data.flashSale === 0 || this.flashSale()) {
+					uni.navigateTo({
+						url: `/pages/shop/detail?prodId=${prodId}`
+					});
+				}
 			}
 		}
 	};
@@ -63,6 +84,13 @@
 
 		.inner {
 			padding: 10rpx 0;
+		}
+
+		.flash-sale-time {
+			display: flex;
+			justify-content: space-between;
+			margin-top: -10rpx;
+			color: #fd4558;
 		}
 
 		.title {
@@ -90,12 +118,7 @@
 				align-items: flex-end;
 
 				.now {
-					text:nth-child(1) {
-						font-size: 20rpx;
-						color: #fd4558;
-					}
-
-					text:nth-child(2) {
+					text {
 						font-size: 28rpx;
 						color: #fd4558;
 					}

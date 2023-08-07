@@ -48,7 +48,7 @@ public class UserBill implements Serializable {
     /**
      * 积分
      */
-    private Integer score;
+    private Double score;
     /**
      * 创建时间
      */

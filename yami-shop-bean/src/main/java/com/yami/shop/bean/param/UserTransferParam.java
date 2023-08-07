@@ -18,5 +18,5 @@ public class UserTransferParam {
 
 	private String realName;
 
-	private Integer score;
+	private Double score;
 }

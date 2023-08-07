@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :title="!dataForm.currentId ? '新增' : '修改'"
+  <el-dialog :title="!dataForm.currentId ? '新增' : '修改'" width="500px"
              :close-on-click-modal="false"
              :visible.sync="visible">
     <el-form :model="dataForm"
@@ -7,11 +7,11 @@
              ref="dataForm"
              @keyup.enter.native="dataFormSubmit()"
              label-width="80px">
-      <el-form-item v-if="dataForm.type !== 2"
+      <!-- <el-form-item v-if="dataForm.type !== 2"
                     label="分类图片"
                     prop="pic">
         <pic-upload v-model="dataForm.pic"></pic-upload>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item v-if="dataForm.type !== 2"
                     label="分类名称"
                     prop="categoryName">
@@ -20,7 +20,7 @@
                   :min="0"
                   label="分类名称"></el-input>
       </el-form-item>
-      <el-form-item label="上级分类">
+      <!-- <el-form-item label="上级分类">
         <el-cascader expand-trigger="hover"
                      :options="categoryList"
                      :props="categoryTreeProps"
@@ -29,7 +29,7 @@
                      v-model="selectedCategory"
                      @change="handleChange">
         </el-cascader>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item v-if="dataForm.type !== 2"
                     label="排序号"
                     prop="seq">

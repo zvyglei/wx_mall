@@ -6,6 +6,7 @@ package com.yami.shop.security.common.filter;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.yami.shop.bean.model.User;
 import com.yami.shop.common.exception.YamiShopBindException;
 import com.yami.shop.common.handler.HttpHandler;
 import com.yami.shop.common.response.ResponseEnum;
@@ -14,6 +15,7 @@ import com.yami.shop.security.common.adapter.AuthConfigAdapter;
 import com.yami.shop.security.common.bo.UserInfoInTokenBO;
 import com.yami.shop.security.common.manager.TokenStore;
 import com.yami.shop.security.common.util.AuthUserContext;
+import com.yami.shop.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,9 @@ public class AuthFilter implements Filter {
 
     @Autowired
     private TokenStore tokenStore;
+
+    @Autowired
+    private UserService userService;
 
     @Value("${sa-token.token-name}")
     private String tokenName;
@@ -89,6 +94,12 @@ public class AuthFilter implements Filter {
                     return;
                 }
                 userInfoInToken = tokenStore.getUserInfoByAccessToken(accessToken, true);
+                User user = userService.getById(userInfoInToken.getUserId());
+                if (user != null && user.getStatus() == 0) {
+                    // 返回前端401
+                    httpHandler.printServerResponseToWeb(ServerResponseEntity.fail(ResponseEnum.UNAUTHORIZED));
+                    return;
+                }
             }
             else if (!mayAuth) {
                 // 返回前端401

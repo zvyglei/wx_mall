@@ -37,7 +37,7 @@
               size="small"
               v-model="scope.row.price"
               controls-position="right"
-              :precision="0"
+              :precision="2"
               :max="1000000000"
               :min="0.01"
               :disabled="!scope.row.status">

@@ -4,13 +4,16 @@
 
 package com.yami.shop.api.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateUtil;
 import com.yami.shop.bean.app.dto.*;
 import com.yami.shop.bean.app.param.OrderParam;
 import com.yami.shop.bean.app.param.OrderShopParam;
 import com.yami.shop.bean.app.param.SubmitOrderParam;
 import com.yami.shop.bean.event.ConfirmOrderEvent;
 import com.yami.shop.bean.model.Order;
+import com.yami.shop.bean.model.Product;
 import com.yami.shop.bean.model.User;
 import com.yami.shop.bean.model.UserAddr;
 import com.yami.shop.common.exception.YamiShopBindException;
@@ -32,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,6 +85,19 @@ public class OrderController {
 
         if (CollectionUtil.isEmpty(shopCartItems)) {
             throw new YamiShopBindException("请选择您需要的商品加入购物车");
+        }
+
+        if (shopCartItems.size() == 1) {
+            // 抢购订单校验
+            Product product = productService.getProductByProdId(shopCartItems.get(0).getProdId());
+            if (product.getFlashSale() == 1) {
+                if (CollUtil.isNotEmpty(product.getFlashSaleUser()) && !product.getFlashSaleUser().contains(userId)) {
+                    throw new YamiShopBindException("系统繁忙");
+                }
+                if (DateUtil.compare(new Date(), product.getFlashSaleEnd()) > 0) {
+                    throw new YamiShopBindException("抢购已结束");
+                }
+            }
         }
 
         // 根据店铺组装购车中的商品信息，返回每个店铺中的购物车商品信息
@@ -147,8 +164,6 @@ public class OrderController {
     public ServerResponseEntity<OrderNumbersDto> submitOrders(@Valid @RequestBody SubmitOrderParam submitOrderParam) {
         String userId = SecurityUtils.getUser().getUserId();
         User user = userService.getById(userId);
-        String password2 = passwordManager.decryptPassword(submitOrderParam.getPayPassWord());
-        String password = passwordManager.decryptPassword(user.getPayPassword());
         if (!passwordManager.decryptPassword(user.getPayPassword()).equals(passwordManager.decryptPassword(submitOrderParam.getPayPassWord()))) {
             throw new YamiShopBindException("支付密码错误");
         }

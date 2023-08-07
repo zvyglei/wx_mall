@@ -38,8 +38,10 @@
                    @click.stop="examineHandle(scope.row.userId)">审核</el-button>
         <!-- <el-button type="warning" icon="el-icon-circle-check" size="small"
                    @click.stop="examineHandle(scope.row.userId)">审核</el-button> -->
-        <el-button type="danger" icon="el-icon-user" size="small" v-if="isAuth('admin:user:charge')"
+        <el-button type="success" icon="el-icon-circle-plus-outline" size="small" v-if="isAuth('admin:user:charge')"
                    @click.stop="scoreCharge(scope.row)">充值</el-button>
+        <el-button type="danger" icon="el-icon-remove-outline" size="small" v-if="isAuth('admin:user:charge')"
+                   @click.stop="scoreReduce(scope.row)">扣除</el-button>
         <!--        <el-button type="danger"-->
         <!--                   icon="el-icon-delete"-->
         <!--                   size="small"-->
@@ -50,6 +52,24 @@
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
     <examine ref="examine" @refreshDataList="getDataList"></examine>
+    <!-- 充值弹窗 -->
+    <el-dialog :title="scoreChargeTitle" :visible.sync="scoreChargeShow" width="500px">
+      <el-form ref="scoreChargeForm" :model="scoreChargeForm" label-width="80px">
+        <el-form-item label="充值数量" required prop="score" :rules="[
+            { required: true, message: '请输入充值数量', trigger: 'blur' }
+          ]">
+          <el-input-number v-model="scoreChargeForm.score" :precision="2" :step="0.1" :min="0" :max="99999999">
+          </el-input-number>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input v-model="scoreChargeForm.chargeRemark" placeholder="请输入备注信息"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="scoreChargeSubmit">立即充值</el-button>
+          <el-button @click="scoreChargeShow = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -69,6 +89,14 @@
           total: 0, // 总页数
           currentPage: 1, // 当前页数
           pageSize: 10 // 每页显示多少条
+        },
+        scoreChargeShow: false,
+        scoreChargeTitle: '',
+        scoreChargeForm: {
+          score: 0.00,
+          chargeRemark: undefined,
+          userId: undefined,
+          wxOpenId: undefined
         }
       }
     },
@@ -148,14 +176,73 @@
         //   this.$message.error('用户未认证')
         //   return
         // }
-        this.$prompt(`给用户【${row.realName || '-'}（${row.userMobile}）】充值`, '充值', {
+        this.scoreChargeForm = {
+          score: 0.00,
+          remark: undefined,
+          userId: row.userId,
+          wxOpenId: row.wxOpenId
+        }
+        this.scoreChargeShow = true
+        this.scoreChargeTitle = `给用户【${row.realName || '-'}（${row.userMobile}）】充值黄金豆`
+        // this.$prompt(, '黄金豆充值', {
+        //   confirmButtonText: '确定',
+        //   cancelButtonText: '取消',
+        //   inputPattern: /^[1-9]\d*$/,
+        //   inputErrorMessage: '充值数量格式不正确，请输入正整数'
+        // }).then(({ value }) => {
+        //   this.$http({
+        //     url: this.$http.adornUrl('/admin/user/charge'),
+        //     method: 'post',
+        //     data: { userId: row.userId, score: value, wxOpenId: row.wxOpenId }
+        //   }).then(({ data }) => {
+        //     this.$message({
+        //       message: '操作成功',
+        //       type: 'success',
+        //       duration: 500,
+        //       onClose: () => {
+        //         this.getDataList(this.page)
+        //       }
+        //     })
+        //   })
+        // }).catch(() => {
+
+        // });
+      },
+      scoreChargeSubmit () {
+        this.$refs.scoreChargeForm.validate((valid) => {
+          if (valid) {
+            this.$http({
+              url: this.$http.adornUrl('/admin/user/charge'),
+              method: 'post',
+              data: this.scoreChargeForm
+            }).then(({ data }) => {
+              this.scoreChargeShow = false
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 500,
+                onClose: () => {
+                  this.getDataList(this.page)
+                }
+              })
+            })
+          }
+        });
+      },
+      // 积分扣除
+      scoreReduce (row) {
+        // if (row.verifyStatus === 0) {
+        //   this.$message.error('用户未认证')
+        //   return
+        // }
+        this.$prompt(`扣除用户【${row.realName || '-'}（${row.userMobile}）】的黄金豆`, '黄金豆扣除', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputPattern: /^[1-9]\d*$/,
-          inputErrorMessage: '充值数量格式不正确，请输入正整数'
+          inputErrorMessage: '扣除数量格式不正确，请输入正整数'
         }).then(({ value }) => {
           this.$http({
-            url: this.$http.adornUrl('/admin/user/charge'),
+            url: this.$http.adornUrl('/admin/user/reduce'),
             method: 'post',
             data: { userId: row.userId, score: value, wxOpenId: row.wxOpenId }
           }).then(({ data }) => {

@@ -7,20 +7,20 @@
       </el-form-item>
     </el-form>
     <el-table :data="dataList" border row-key="categoryId" style="width: 100%;">
-      <el-table-column prop="categoryName" header-align="center" treeKey="categoryId" width="180" label="分类名称">
+      <el-table-column prop="categoryName" header-align="center" treeKey="categoryId" label="分类名称">
       </el-table-column>
-      <el-table-column prop="pic" header-align="center" align="center" label="图片">
+      <!-- <el-table-column prop="pic" header-align="center" align="center" label="图片">
         <template slot-scope="scope">
           <img :src="resourcesUrl + scope.row.pic " />
         </template>
-      </el-table-column>
-      <el-table-column prop="status" header-align="center" align="center" label="状态" width="150">
+      </el-table-column> -->
+      <el-table-column prop="status" header-align="center" align="center" label="状态">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status === 0" size="small" type="danger">下线</el-tag>
           <el-tag v-else size="small">正常</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="seq" header-align="center" align="center" label="排序号" width="100">
+      <el-table-column prop="seq" header-align="center" align="center" label="排序号">
       </el-table-column>
       <el-table-column header-align="center" align="center" label="操作" width="200">
         <template slot-scope="scope">

@@ -33,7 +33,7 @@ public class IndexOrderDto {
 
     private String prodCount;
 
-    private Integer price;
+    private Double price;
 
     private String oriPrice;
 }

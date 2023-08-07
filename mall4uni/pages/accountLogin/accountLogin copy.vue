@@ -1,7 +1,7 @@
 <template>
 	<view class="welcome">
 		你好，<br>
-		欢迎来到积分商城
+		欢迎来到黄金豆商城
 	</view>
 	<view class="con">
 		<image src="../../static/logo.png"></image>

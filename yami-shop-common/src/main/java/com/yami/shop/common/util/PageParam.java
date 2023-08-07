@@ -29,7 +29,7 @@ public class PageParam<T> extends Page<T> {
      * 当前页
      */
     @Schema(description = "当前页，默认1")
-    private long current = 1;
+    private long current = -1;
 
     /**
      * 查询数据列表

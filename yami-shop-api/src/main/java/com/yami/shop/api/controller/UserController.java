@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -141,7 +142,7 @@ public class UserController {
 			throw new YamiShopBindException("对方还未认证，无法转账");
 		}
 
-		Integer score = userTransferParam.getScore();
+		double score = userTransferParam.getScore();
 		// 对方加钱
 		user.setScore(score);
 		Boolean b = userService.updateScoreById(user);
@@ -160,7 +161,7 @@ public class UserController {
 			bill.setOrderId(null);
 			bill.setBillType(BillType.IN.value());
 			bill.setScore(score);
-			bill.setBillDesc("他人转入");
+			bill.setBillDesc("黄金豆到账");
 			bill.setCreateTime(new Date());
 			userBillService.save(bill);
 
@@ -170,7 +171,7 @@ public class UserController {
 				templateMsg.setScore(String.valueOf(user.getScore() + score));
 				templateMsg.setShopScore("+" + score);
 				templateMsg.setShopTime(new Date());
-				wxServerService.sendUnionMsg(templateMsg, user.getWxOpenId());
+				wxServerService.sendUnionInMsg(templateMsg, user.getWxOpenId(), "黄金豆到账");
 			});
 
 
@@ -191,10 +192,20 @@ public class UserController {
 				templateMsg.setScore(String.valueOf(byId2.getScore() + score));
 				templateMsg.setShopScore("-" + score);
 				templateMsg.setShopTime(new Date());
-				wxServerService.sendUnionMsg(templateMsg, byId2.getWxOpenId());
+				wxServerService.sendUnionOutMsg(templateMsg, byId2.getWxOpenId());
 			});
 		}
 
 		return ServerResponseEntity.success();
 	}
+
+	/**
+	 * 配置信息
+	 */
+	@GetMapping("/transfer/{id}")
+	public ServerResponseEntity<Integer> transferConfig(@PathVariable("id") Long id){
+		Integer val = userService.getTransferConfig(id);
+		return ServerResponseEntity.success(val);
+	}
+
 }

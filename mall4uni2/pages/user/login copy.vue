@@ -185,7 +185,6 @@
 		left: 50rpx;
 		top: 50rpx;
 		height: 160rpx;
-		width: 435rpx;
 		color: rgba(16, 16, 16, 1);
 		font-size: 50rpx;
 		text-align: left;

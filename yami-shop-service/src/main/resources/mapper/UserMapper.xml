@@ -37,6 +37,9 @@
     <select id="getRefereeById" resultType="java.lang.String">
         select referee from tz_user where user_id = #{userId}
     </select>
+    <select id="getTransferConfig" resultType="java.lang.Integer">
+        select param_value from tz_sys_config where id = #{id}
+    </select>
 
     <update id="updateScoreById">
         update tz_user set score = score + #{score} where user_id = #{userId}

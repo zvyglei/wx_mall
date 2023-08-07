@@ -11,6 +11,9 @@ import lombok.Data;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +31,11 @@ public class ProductParam {
      * 状态
      */
     private Integer status;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date flashSaleStart;
+
+    private Integer flashSaleTime;
 
     /**
      * 商品名称

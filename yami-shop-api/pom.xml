@@ -23,7 +23,7 @@
 			<artifactId>yami-shop-security-api</artifactId>
 			<version>${yami.shop.version}</version>
 		</dependency>
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

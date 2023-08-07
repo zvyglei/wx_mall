@@ -5,7 +5,7 @@
 			<view class="desc">
 				<view class="price">
 					<image src="/static/jindou.png" style="width: 38rpx; height: 38rpx; margin-bottom: -6rpx;"></image>
-					<text>{{ data.price }}</text>
+					<text>{{wxs.parsePrice(data.price)[0]}}.{{wxs.parsePrice(data.price)[1]}}</text>
 				</view>
 				<!-- <view class="select">
 					<text>已选</text>
@@ -31,13 +31,14 @@
 			<view class="title">数量</view>
 			<u-number-box v-model="num" @change="changeNum" :max="stocks"></u-number-box>
 		</view>
-		<view class="operate">
+		<view class="operate" v-if="data.flashSale === 0">
 			<u-button style="width: 50%;" type="info" @click="addCartHandle" throttleTime='50'>加入购物车</u-button>
 			<u-button style="width: 50%;" type="primary" @click="bugNowHandle" throttleTime='50'>立即购买</u-button>
 		</view>
 	</u-popup>
 </template>
 
+<script module="wxs" lang="wxs" src="@/wxs/number.wxs"></script>
 <script>
 	export default {
 		data() {

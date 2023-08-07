@@ -31,4 +31,6 @@ public interface UserMapper extends BaseMapper<User> {
     Boolean reduceScoreById(User user);
 
 	String getRefereeById(String userId);
+
+	Integer getTransferConfig(Long id);
 }

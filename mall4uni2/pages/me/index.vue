@@ -68,7 +68,10 @@
 			<view class="card-body">
 				<u-grid :col="2" :border="false">
 					<u-grid-item @tap="toBill">
-						<text class="u-font-18 u-m-t-10" style="color: #eb2444;">{{ userInfo.score || 0 }}</text>
+						<text class="u-font-18 u-m-t-10" style="color: #eb2444;">
+							<text class="">{{wxs.parsePrice(userInfo.score || 0 )[0]}}</text>
+							<text class="">.{{wxs.parsePrice(userInfo.score || 0 )[1]}}</text>
+						</text>
 						<view class="grid-text">黄金豆</view>
 					</u-grid-item>
 					<u-grid-item @tap="toBill">
@@ -171,6 +174,7 @@
 	</view>
 </template>
 
+<script module="wxs" lang="wxs" src="@/wxs/number.wxs"></script>
 <script>
 	// import searchNavbar from '@/components/search-navbar.vue';
 	var http = require("@/utils/http");
@@ -346,8 +350,18 @@
 				})
 			},
 			toTransfer() {
-				uni.navigateTo({
-					url: "/pages/me/transfer?score=" + this.userInfo.score
+				http.request({
+					url: "/p/user/transfer/2",
+					method: "get",
+					callBack: res => {
+						if (res === 1) {
+							uni.navigateTo({
+								url: "/pages/me/transfer?score=" + this.userInfo.score
+							})
+						} else {
+							uni.$u.toast('暂停使用')
+						}
+					}
 				})
 			},
 			toAddr() {

@@ -5,6 +5,8 @@
 package com.yami.shop.admin.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.DateField;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -63,6 +65,23 @@ public class ProductController {
                 new LambdaQueryWrapper<Product>()
                         .like(StrUtil.isNotBlank(product.getProdName()), Product::getProdName, product.getProdName())
                         .eq(Product::getShopId, SecurityUtils.getSysUser().getShopId())
+                        .eq(Product::getFlashSale, 0)
+                        .eq(product.getStatus() != null, Product::getStatus, product.getStatus())
+                        .orderByDesc(Product::getPutawayTime));
+        return ServerResponseEntity.success(products);
+    }
+
+    /**
+     * 分页获取抢购商品信息
+     */
+    @GetMapping("/flash-sale/page")
+    @PreAuthorize("@pms.hasPermission('prod:prod:flash-sale:page')")
+    public ServerResponseEntity<IPage<Product>> flashSalePage(ProductParam product, PageParam<Product> page) {
+        IPage<Product> products = productService.page(page,
+                new LambdaQueryWrapper<Product>()
+                        .like(StrUtil.isNotBlank(product.getProdName()), Product::getProdName, product.getProdName())
+                        .eq(Product::getShopId, SecurityUtils.getSysUser().getShopId())
+                        .eq(Product::getFlashSale, 1)
                         .eq(product.getStatus() != null, Product::getStatus, product.getStatus())
                         .orderByDesc(Product::getPutawayTime));
         return ServerResponseEntity.success(products);
@@ -96,6 +115,10 @@ public class ProductController {
         checkParam(productParam);
 
         Product product = BeanUtil.copyProperties(productParam, Product.class);
+        if (productParam.getFlashSaleStart() != null && productParam.getFlashSaleTime() != null) {
+            // 设置结束时间
+            product.setFlashSaleEnd(DateUtil.offset(productParam.getFlashSaleStart(), DateField.SECOND, productParam.getFlashSaleTime()));
+        }
         product.setDeliveryMode(Json.toJsonString(productParam.getDeliveryModeVo()));
         product.setShopId(SecurityUtils.getSysUser().getShopId());
         product.setUpdateTime(new Date());
@@ -123,6 +146,10 @@ public class ProductController {
 
 
         Product product = BeanUtil.copyProperties(productParam, Product.class);
+        if (productParam.getFlashSaleStart() != null && productParam.getFlashSaleTime() != null) {
+            // 设置结束时间
+            product.setFlashSaleEnd(DateUtil.offset(productParam.getFlashSaleStart(), DateField.SECOND, productParam.getFlashSaleTime()));
+        }
         product.setDeliveryMode(Json.toJsonString(productParam.getDeliveryModeVo()));
         product.setUpdateTime(new Date());
 

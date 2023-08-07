@@ -74,13 +74,14 @@
         select tp.*,tc.category_name,tsd.shop_name from tz_prod tp
         left join tz_category tc on tp.category_id = tc.category_id
         left join tz_shop_detail tsd on tp.shop_id = tsd.shop_id
-        where tp.status = 1
+        where tp.status = 1 and flash_sale = #{flashSale}
         <if test="categoryId != null">
             AND tp.category_id = #{categoryId}
         </if>
         <if test="keywords != null and keywords != ''">
             and tp.prod_name like concat('%', #{keywords}, '%')
         </if>
+        order by tp.flash_sale_end desc, tp.create_time desc
     </select>
 
     <select id="getProductByProdNameAndShopId" resultType="com.yami.shop.bean.model.Product">

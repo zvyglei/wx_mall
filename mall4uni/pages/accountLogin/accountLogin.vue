@@ -2,7 +2,7 @@
 	<view class="con">
 		<view class="title">
 			<view>{{ principal ? '' : '你好，' }}</view>
-			<view>{{ principal ? '账号密码登录' : '欢迎来到积分商城' }}</view>
+			<view>{{ principal ? '账号密码登录' : '欢迎来到黄金豆商城' }}</view>
 		</view>
 		<!-- 登录 -->
 		<view class="login-form">
@@ -29,7 +29,7 @@
 				<view class="error-text" v-if="errorTips==2"><text class="warning-icon">!</text>请输入密码</view>
 			</view>
 		</view>
-		
+
 		<view>
 			<button :class="['authorized-btn', principal && credentials ? 'authorized-btn-active' : 'authorized-btn-inactive']"
 				:disabled="!principal || !credentials" @tap="login">登录</button>

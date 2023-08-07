@@ -94,7 +94,7 @@
 				<view class="msg-item">
 					<view class="item">
 						<text class="item-tit">支付方式：</text>
-						<text class="item-txt">微信支付</text>
+						<text class="item-txt">黄金豆兑换</text>
 					</view>
 					<view class="item">
 						<text class="item-tit">配送方式：</text>
@@ -113,12 +113,14 @@
 						<view class="item-tit">订单总额：</view>
 						<view class="item-txt price">
 							<text class="">{{wxs.parsePrice(total)[0]}}</text>
+							<text class="">{{wxs.parsePrice(total)[1]}}</text>
 						</view>
 					</view>
 					<view class="item">
 						<view class="item-tit">运费：</view>
 						<view class="item-txt price">
 							<text class="">{{wxs.parsePrice(transfee)[0]}}</text>
+							<text class="">{{wxs.parsePrice(transfee)[1]}}</text>
 						</view>
 					</view>
 					<!-- <view class="item">
@@ -136,7 +138,8 @@
             <text class="small-num">.{{wxs.parsePrice(actualTotal)[1]}}</text> -->
 
 							<image src="/static/jindou.png" style="width: 32rpx; height: 32rpx; margin-bottom: -6rpx;"></image>
-							<text class="big-num">{{actualTotal}}</text>
+							<text class="big-num">{{wxs.parsePrice(actualTotal)[0]}}</text>
+							<text class="small-num">.{{wxs.parsePrice(actualTotal)[1]}}</text>
 						</view>
 					</view>
 				</view>

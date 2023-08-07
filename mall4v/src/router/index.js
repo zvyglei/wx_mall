@@ -47,7 +47,8 @@ const mainRoutes = {
     // 提示: 如需要通过iframe嵌套展示内容, 但不通过tab打开, 请自行创建组件使用iframe处理!
     // { path: '/home', component: _import('common/home'), name: 'home', meta: { title: '首页' } },
     { path: '/prod/prodList', component: _import('modules/prod/prodList'), name: 'prodList', meta: { title: '首页' } },
-    { path: '/prodInfo', component: _import('modules/prod/prodInfo'), name: 'prodInfo', meta: { title: '产品详情' } }
+    { path: '/prodInfo', component: _import('modules/prod/prodInfo'), name: 'prodInfo', meta: { title: '商品详情' } },
+    { path: '/prodFlashSaleInfo', component: _import('modules/prod/prodFlashSaleInfo'), name: 'prodInfo', meta: { title: '抢购商品详情' } }
   ],
   beforeEnter (to, from, next) {
     let authorization = Vue.cookie.get('Authorization')

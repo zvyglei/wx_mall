@@ -3,8 +3,10 @@
 		<!-- search -->
 		<view class="" style="background-color: #fff;">
 			<view class="u-m-t-20 u-m-b-0 u-m-l-20 u-m-r-20">
-				<u-search shape="square" :showAction="false" clearabled placeholder="搜索商品" v-model="keywords"
-					confirm-type="search" @search="toSearchConfirm"></u-search>
+				<!-- <u-search shape="square" :showAction="false" clearabled placeholder="搜索商品" v-model="keywords"
+					confirm-type="search" @search="toSearchConfirm"></u-search> -->
+				<u-search shape="square" :showAction="false" clearabled placeholder="搜索您想要的商品" v-model="keywords"
+					confirm-type="search" @tap="toSearchPage"></u-search>
 			</view>
 		</view>
 		<!-- u-grid -->
@@ -24,7 +26,7 @@
 					<CardGoods class="goods-item" :key="index" :data="listItem"></CardGoods>
 				</view>
 			</view>
-			<u-loadmore v-if="nomore" :line="true" status="loadmore" loadmore-text="没有更多了" />
+			<!-- <u-loadmore v-if="nomore" :line="true" status="loadmore" loadmore-text="没有更多了" /> -->
 		</view>
 	</view>
 </template>
@@ -54,27 +56,43 @@
 		 * 页面上拉触底事件的处理函数
 		 */
 		onReachBottom: function() {
-			this.page++
-			http.request({
-				url: `/prod/pageProd?keywords=${this.keywords}&page=${this.page}`,
-				method: "get",
-				callBack: res => {
-					if (res && res.length > 0) {
-						this.goodsList.push(...res.records)
-					} else {
-						this.nomore = true
-					}
-				},
-			})
+			// this.page++
+			// var ths = this
+			// http.request({
+			// 	url: `/prod/pageProd?keywords=${ths.keywords}&current=${ths.page}`,
+			// 	method: "get",
+			// 	callBack: res => {
+			// 		if (res && res.records.length > 0) {
+			// 			ths.goodsList.push(...res.records)
+			// 			ths.goodsList = ths.resetWatherItem(ths.goodsList)
+			// 		} else {
+			// 			ths.nomore = true
+			// 		}
+			// 	},
+			// })
 		},
 		methods: {
+			resetWatherItem(data) {
+					var temp = [];
+					var temp1 = []
+					for (var i = 0; i < data.length; i++) {
+							i % 2 == 0 ? temp.push(data[i]) : temp1.push(data[i])
+					}
+					temp.push(...temp1)
+					return temp
+			},
 			getPage() {
 				http.request({
-					url: `/prod/pageProd?keywords=${this.keywords}&page=${this.page}`,
+					url: `/prod/pageProd?keywords=${this.keywords}&current=${this.page}`,
 					method: "get",
 					callBack: res => {
-						this.goodsList = res.records
+						this.goodsList = this.resetWatherItem(res.records)
 					},
+				})
+			},
+			toSearchPage() {
+				uni.navigateTo({
+					url: "/pages/shop/category"
 				})
 			},
 			toSearchConfirm: function(e) {

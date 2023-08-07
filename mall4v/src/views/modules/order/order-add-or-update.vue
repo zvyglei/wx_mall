@@ -122,7 +122,7 @@
                         <div class="item-info">
                             <span>商品总价：<span class="text">￥15.00</span></span><br>
                             <span>店铺优惠：<span class="text">-￥0.00</span></span><br>
-                            <span>积分抵扣：<span class="text">-￥0.00</span></span><br>
+                            <span>黄金豆抵扣：<span class="text">-￥0.00</span></span><br>
                             <span>发票费用：<span class="text">￥0.00</span></span><br>
                             <span>配送费用：<span class="text">￥0.00</span></span><br>
                             <span>应付金额：<span class="amount text">￥15.00</span></span>

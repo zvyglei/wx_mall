@@ -3,8 +3,8 @@
 		<view class="count">
 			<view class="price">
 				<image src="/static/jindou.png" style="width: 38rpx; height: 38rpx; margin-bottom: -6rpx;"></image>
-				<text>{{ data.price }}</text>
-				<text>￥{{ data.oriPrice }}</text>
+				<text>{{wxs.parsePrice(data.price)[0]}}.{{wxs.parsePrice(data.price)[1]}}</text>
+				<text>￥{{wxs.parsePrice(data.oriPrice)[0]}}.{{wxs.parsePrice(data.oriPrice)[1]}}</text>
 			</view>
 			<view class="sale">
 				<text>已兑换</text>
@@ -20,6 +20,7 @@
 	</view>
 </template>
 
+<script module="wxs" lang="wxs" src="@/wxs/number.wxs"></script>
 <script>
 	export default {
 		props: {
@@ -98,7 +99,7 @@
 		text {
 			vertical-align: middle;
 			font-size: 28rpx;
-			color: #8f92a1;
+			color: #9e9e9e;
 		}
 	}
 </style>

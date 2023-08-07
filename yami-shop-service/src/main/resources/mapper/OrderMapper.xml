@@ -361,10 +361,11 @@
                (p.ori_price * oi.prod_count) as ori_price
         from tz_order_item oi
                  left join tz_order o on oi.order_number = o.order_number
-                 left join tz_prod p on oi.prod_id = p.prod_id
+                 inner join tz_prod p on oi.prod_id = p.prod_id
                  left join tz_user u on oi.user_id = u.user_id
         where o.is_payed = 1
-        order by o.pay_time
+        order by o.pay_time desc
+        limit 10
     </select>
 
 </mapper>

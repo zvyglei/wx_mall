@@ -67,4 +67,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public String getRefereeById(String userId) {
         return userMapper.getRefereeById(userId);
     }
+
+    @Override
+    public Integer getTransferConfig(Long id) {
+        return userMapper.getTransferConfig(id);
+    }
 }

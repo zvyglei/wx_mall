@@ -5,9 +5,12 @@
 package com.yami.shop.bean.model;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yami.shop.common.serializer.json.ImgJsonSerializer;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -113,6 +116,24 @@ public class Product implements Serializable {
      * 上架时间
      */
     private Date putawayTime;
+
+    /**
+     * 抢购 1-是 0-否
+     */
+    private Integer flashSale;
+
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date flashSaleStart;
+
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date flashSaleEnd;
+
+    private Integer flashSaleTime;
+
+    @TableField(typeHandler = FastjsonTypeHandler.class)
+    private List<String> flashSaleUser;
 
     /**
      * 版本

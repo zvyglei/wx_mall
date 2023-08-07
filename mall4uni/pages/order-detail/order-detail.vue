@@ -92,7 +92,7 @@
       <view class="msg-item">
         <view class="item">
           <text class="item-tit">支付方式：</text>
-          <text class="item-txt">微信支付</text>
+          <text class="item-txt">黄金豆兑换</text>
         </view>
         <view class="item">
           <text class="item-tit">配送方式：</text>

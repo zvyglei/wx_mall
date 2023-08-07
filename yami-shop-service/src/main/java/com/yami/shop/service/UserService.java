@@ -32,4 +32,6 @@ public interface UserService extends IService<User> {
     Boolean reduceScoreById(User user);
 
     String getRefereeById(String userId);
+
+    Integer getTransferConfig(Long id);
 }

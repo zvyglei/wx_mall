@@ -49,6 +49,7 @@
           return file.response.data
         }).join(',')
         this.$emit('input', pics)
+        console.log(pics);
       },
       // 限制图片上传大小
       beforeAvatarUpload (file) {

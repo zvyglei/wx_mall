@@ -30,11 +30,11 @@
       <el-table-column prop="prodName"
                        header-align="center"
                        align="center"
-                       label="产品名称">
+                       label="商品名称">
       </el-table-column>
       <el-table-column align="center"
                        width="140"
-                       label="产品图片">
+                       label="商品图片">
         <template slot-scope="scope">
           <img :src="scope.row.pic"
                width="100"

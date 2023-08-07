@@ -6,14 +6,13 @@
 		<view style="padding-bottom: 32rpx;">
 			<u-grid :border="false" col="3">
 				<u-grid-item v-for="(listItem,listIndex) in list" :key="listIndex">
-					<image :src="listItem.imgPath" class="grid-img" @tap="gridClick(listItem.toUrl)"
+					<image :src="listItem.imgPath" class="grid-img" @tap="gridClick(listItem.toUrl, listItem.tabBar)"
 						:style="[{ background: listItem.bg }, { 'box-shadow': '0 0 5px 0 ' + listItem.bg + 'a1'}]"></image>
 					<text class="grid-text">{{listItem.title}}</text>
 				</u-grid-item>
 			</u-grid>
 			<u-toast ref="uToast" />
 		</view>
-
 		<!-- 用户兑换记录 -->
 		<view class="card">
 			<view class="card-hader">
@@ -43,12 +42,12 @@
 								</view>
 								<view class="price">
 									<view class="price-text">
-										<text class="price">￥</text>
-										<text class="price">{{item.oriPrice || '127.00'}}</text>
+										<text>￥</text>
+										<text>{{item.oriPrice || '127.00'}}</text>
 									</view>
 									<view class="integral">
 										<image src="/static/jindou.png" style="width: 30rpx; height: 30rpx; margin-bottom: -8rpx;"></image>
-										<text>{{item.price || '1270'}}</text>
+										<text>{{wxs.parsePrice(item.price)[0]}}.{{wxs.parsePrice(item.price)[1]}}</text>
 									</view>
 								</view>
 							</view>
@@ -60,12 +59,13 @@
 	</view>
 </template>
 
+<script module="wxs" lang="wxs" src="@/wxs/number.wxs"></script>
 <script>
 	var http = require("@/utils/http");
 	export default {
 		data() {
 			return {
-				// noticeContentList: [ '寒雨连江夜入吴','平明送客楚山孤','洛阳亲友如相问', '一片冰心在玉壶'  ],
+				noticeContentList: [ '张三已兑换商品','张三已兑换商品','张三已兑换商品', '张三已兑换商品'  ],
 				// indexImgs: [
 				// 	'https://cdn.uviewui.com/uview/swiper/swiper1.png',
 				// 	'https://cdn.uviewui.com/uview/swiper/swiper2.png',
@@ -73,7 +73,21 @@
 				// ],
 				indexImgs: [],
 				records: [],
-				list: [{
+				list: [
+					{
+						bg: '#f76658',
+						imgPath: '/static/grid/jifen.png',
+						title: '商城',
+						toUrl: '/pages/shop/index',
+						tabBar: true
+					},
+					{
+						bg: '#fe8c17',
+						imgPath: '/static/grid/miaosha.png',
+						title: '秒杀抢购',
+						toUrl: '/pages/shop-flash-sale/index'
+					},
+					{
 						bg: '#0aaffd',
 						imgPath: '/static/grid/pintuan.png',
 						title: '拼团'
@@ -84,20 +98,9 @@
 						title: '砍价'
 					},
 					{
-						bg: '#fe8c17',
-						imgPath: '/static/grid/miaosha.png',
-						title: '秒杀'
-					},
-					{
 						bg: '#787afb',
 						imgPath: '/static/grid/yuyue.png',
 						title: '在线预约'
-					},
-					{
-						bg: '#f76658',
-						imgPath: '/static/grid/jifen.png',
-						title: '积分商城',
-						toUrl: '/pages/shop/index'
 					},
 					{
 						bg: '#30d2cc',
@@ -119,7 +122,7 @@
 				url: "/orderRecords",
 				method: "get",
 				callBack: res => {
-					this.records = res.length > 4 ? res : [1, 2, 3, 4, 5]
+					this.records = res.length > 3 ? res : [1, 2, 3, 4]
 				}
 			})
 
@@ -134,10 +137,10 @@
 			})
 		},
 		onShow() {
-			
+
 		},
 		methods: {
-			gridClick(url) {
+			gridClick(url, tabBar) {
 				if (!url) {
 					uni.showToast({
 						title: '暂未开放',
@@ -145,15 +148,28 @@
 					})
 					return
 				}
-				uni.switchTab({
-					url: url
-				})
+				if(tabBar)  {
+					uni.switchTab({
+						url: url
+					})
+				} else {
+					uni.navigateTo({
+						url: url
+					})
+				}
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+
+
+	.waterfall {
+		margin: 0 -20rpx;
+		column-count: 2; //想要排成的列数
+		column-gap: 0;
+	}
 	.record-title {
 		height: 90rpx;
 		line-height: 90rpx;
@@ -206,7 +222,7 @@
 	}
 
 	.info {
-		width: 800rpx;
+		width: 1200rpx;
 		margin: 0 20rpx;
 
 		.title {
@@ -222,7 +238,7 @@
 	}
 
 	.price {
-		width: 150rpx;
+		width: 500rpx;
 		text-align: right;
 
 		.price-text {

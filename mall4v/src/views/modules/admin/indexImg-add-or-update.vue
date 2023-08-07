@@ -122,7 +122,7 @@ export default {
       this.visible = true
       this.dataForm.imgId = id || 0
       if (this.dataForm.imgId) {
-        // 获取产品数据
+        // 获取商品数据
         this.$http({
           url: this.$http.adornUrl(`/admin/indexImg/info/${this.dataForm.imgId}`),
           method: 'get',
