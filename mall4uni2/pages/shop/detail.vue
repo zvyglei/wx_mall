@@ -72,36 +72,45 @@
 				}
 			}
 		},
+		onShow() {
+			if (this.goodsDetail && this.goodsDetail.prodId) {
+				var option = {prodId: this.goodsDetail.prodId}
+				this.init(option)
+			}
+		},
 		onLoad(option) {
-			http.request({
-				url: `/prod/prodInfo?prodId=${option.prodId}`,
-				method: "get",
-				callBack: res => {
-					this.goodsDetail = res
-					this.$refs.goodsOperate.init(res)
-					var skuList = this.goodsDetail.skuList
-					if (skuList.length == 1) {
-						this.selectedSku = {
-							skuId: skuList[0].skuId,
-							label: skuList[0].properties
-						}
-					}
-					this.imgs = res.imgs.split(',')
-				},
-			})
-			
-			http.request({
-				url: `/p/address/addrCommonInfo`,
-				method: "get",
-				callBack: res => {
-					this.selectedAddr = {
-						addrId: res.addrId,
-						addr: res.addr
-					}
-				},
-			})
+			this.init(option)
 		},
 		methods: {
+			init (option) {
+				http.request({
+					url: `/prod/prodInfo?prodId=${option.prodId}`,
+					method: "get",
+					callBack: res => {
+						this.goodsDetail = res
+						this.$refs.goodsOperate.init(res)
+						var skuList = this.goodsDetail.skuList
+						if (skuList.length == 1) {
+							this.selectedSku = {
+								skuId: skuList[0].skuId,
+								label: skuList[0].properties
+							}
+						}
+						this.imgs = res.imgs.split(',')
+					},
+				})
+				
+				http.request({
+					url: `/p/address/addrCommonInfo`,
+					method: "get",
+					callBack: res => {
+						this.selectedAddr = {
+							addrId: res.addrId,
+							addr: res.addr
+						}
+					},
+				})
+			},
 			// 打开选择sku的弹窗
 			openSkuPopup() {
 				this.$refs.GoodsSelectSku.open(this.goodsDetail, this.selectedSku);

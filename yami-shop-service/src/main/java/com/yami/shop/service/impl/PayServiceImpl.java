@@ -22,6 +22,7 @@ import com.yami.shop.common.exception.YamiShopBindException;
 import com.yami.shop.common.util.Arith;
 import com.yami.shop.dao.OrderMapper;
 import com.yami.shop.dao.OrderSettlementMapper;
+import com.yami.shop.dao.ProductMapper;
 import com.yami.shop.dao.UserMapper;
 import com.yami.shop.service.PayService;
 import com.yami.shop.service.UserBillService;
@@ -52,6 +53,9 @@ public class PayServiceImpl implements PayService {
     @Autowired
     private OrderMapper orderMapper;
 
+    @Autowired
+    private ProductMapper productMapper;
+
 
 
     @Autowired
@@ -70,8 +74,6 @@ public class PayServiceImpl implements PayService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public PayInfoDto pay(String userId, PayParam payParam) {
-
-
         // 不同的订单号的产品名称
         StringBuilder prodName = new StringBuilder();
         // 支付单号

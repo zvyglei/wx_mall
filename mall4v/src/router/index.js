@@ -38,15 +38,15 @@ const mainRoutes = {
   path: '/',
   component: _import('main'),
   name: 'main',
-  redirect: { name: 'prodList' },
+  redirect: { name: 'home' },
   meta: { title: '主入口整体布局' },
   children: [
     // 通过meta对象设置路由展示方式
     // 1. isTab: 是否通过tab展示内容, true: 是, false: 否
     // 2. iframeUrl: 是否通过iframe嵌套展示内容, '以http[s]://开头': 是, '': 否
     // 提示: 如需要通过iframe嵌套展示内容, 但不通过tab打开, 请自行创建组件使用iframe处理!
-    // { path: '/home', component: _import('common/home'), name: 'home', meta: { title: '首页' } },
-    { path: '/prod/prodList', component: _import('modules/prod/prodList'), name: 'prodList', meta: { title: '首页' } },
+    { path: '/home', component: _import('common/home'), name: 'home', meta: { title: '首页' } },
+    // { path: '/prod/prodList', component: _import('modules/prod/prodList'), name: 'prodList', meta: { title: '首页' } },
     { path: '/prodInfo', component: _import('modules/prod/prodInfo'), name: 'prodInfo', meta: { title: '商品详情' } },
     { path: '/prodFlashSaleInfo', component: _import('modules/prod/prodFlashSaleInfo'), name: 'prodInfo', meta: { title: '抢购商品详情' } }
   ],

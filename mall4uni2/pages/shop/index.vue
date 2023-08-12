@@ -2,11 +2,14 @@
 	<view class="page">
 		<!-- search -->
 		<view class="" style="background-color: #fff;">
-			<view class="u-m-t-20 u-m-b-0 u-m-l-20 u-m-r-20">
+			<view class="u-m-t-20 u-m-b-0 u-m-l-20 u-m-r-20 u-flex">
 				<!-- <u-search shape="square" :showAction="false" clearabled placeholder="搜索商品" v-model="keywords"
 					confirm-type="search" @search="toSearchConfirm"></u-search> -->
 				<u-search shape="square" :showAction="false" clearabled placeholder="搜索您想要的商品" v-model="keywords"
-					confirm-type="search" @tap="toSearchPage"></u-search>
+					confirm-type="search" @tap="toSearchConfirm"></u-search>
+				<image src="@/static/goods/category.png" mode="" style="width: 28px; height: 28px; margin-left: 10rpx;" @tap="toCategoryPage">
+				</image>
+				<!-- <text style="padding: 10rpx; color: #868686;" @tap="toCategoryPage">分类</text> -->
 			</view>
 		</view>
 		<!-- u-grid -->
@@ -73,13 +76,13 @@
 		},
 		methods: {
 			resetWatherItem(data) {
-					var temp = [];
-					var temp1 = []
-					for (var i = 0; i < data.length; i++) {
-							i % 2 == 0 ? temp.push(data[i]) : temp1.push(data[i])
-					}
-					temp.push(...temp1)
-					return temp
+				var temp = [];
+				var temp1 = []
+				for (var i = 0; i < data.length; i++) {
+					i % 2 == 0 ? temp.push(data[i]) : temp1.push(data[i])
+				}
+				temp.push(...temp1)
+				return temp
 			},
 			getPage() {
 				http.request({
@@ -90,7 +93,7 @@
 					},
 				})
 			},
-			toSearchPage() {
+			toCategoryPage() {
 				uni.navigateTo({
 					url: "/pages/shop/category"
 				})

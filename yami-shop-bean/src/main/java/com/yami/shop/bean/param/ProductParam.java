@@ -4,6 +4,8 @@
 
 package com.yami.shop.bean.param;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import com.yami.shop.bean.model.Product;
 import com.yami.shop.bean.model.Sku;
 import lombok.Data;
@@ -31,6 +33,9 @@ public class ProductParam {
      * 状态
      */
     private Integer status;
+
+    @TableField(typeHandler = FastjsonTypeHandler.class)
+    private List<String> flashSaleUser;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date flashSaleStart;

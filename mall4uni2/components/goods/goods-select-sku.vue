@@ -29,7 +29,7 @@
 		</view>
 		<view class="num">
 			<view class="title">数量</view>
-			<u-number-box v-model="num" @change="changeNum" :max="stocks"></u-number-box>
+			<u-number-box v-model="num" @change="changeNum" :max="stocks" :disabled="data.flashSale === 1"></u-number-box>
 		</view>
 		<view class="operate" v-if="data.flashSale === 0">
 			<u-button style="width: 50%;" type="info" @click="addCartHandle" throttleTime='50'>加入购物车</u-button>

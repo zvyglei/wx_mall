@@ -7,9 +7,6 @@
 				<view class="delivery-addr " @tap="toAddrListPage">
 					<view class="addr-bg " v-if="!userAddr">
 						<view class="add-addr">
-							<view class="plus-sign-img">
-								<image src="/static/images/icon/plus-sign.png"></image>
-							</view>
 							<text>新增收货地址</text>
 						</view>
 						<view class="arrow empty"></view>
@@ -138,11 +135,11 @@
 						<view class="price">
 							<image src="/static/jindou.png" style="width: 32rpx; height: 32rpx; margin-bottom: -6rpx;"></image>
 							<text class="big-num">{{wxs.parsePrice(actualTotal)[0]}}</text>
-								<text class="big-num">.{{wxs.parsePrice(actualTotal)[1]}}</text>
+							<text class="big-num">.{{wxs.parsePrice(actualTotal)[1]}}</text>
 						</view>
 					</view>
 				</view>
-				<view class="footer-box" @tap="payPasswordShow = true">
+				<view v-show="canConfirm" class="footer-box" @tap="payPasswordShow = true, payPassWord = ''">
 					提交订单
 				</view>
 			</view>
@@ -218,6 +215,7 @@
 				shopReduce: "",
 				item: {},
 				selAddress: '',
+				canConfirm: false,
 				// 支付
 				payPasswordShow: false,
 				payPassWord: ''
@@ -250,6 +248,7 @@
 				this.userAddr = currPage.item
 			}
 
+			this.canConfirm = false
 			this.payPasswordShow = false
 			//获取订单数据
 			this.loadOrderData();
@@ -282,6 +281,11 @@
 		methods: {
 			//加载订单数据
 			loadOrderData: function() {
+				
+					uni.showToast({
+						title: "none",
+						icon: "none"
+					});
 				var addrId = 0;
 
 				if (this.userAddr != null) {
@@ -332,10 +336,22 @@
 							this.userAddr = res.userAddr,
 							this.transfee = res.shopCartOrders[0].transfee,
 							this.shopReduce = res.shopCartOrders[0].shopReduce
+						this.canConfirm = true
 					},
-					errCallBack: res => {
+					errCallBack: error => {
 						uni.hideLoading();
-						this.chooseCouponErrHandle(res);
+						uni.showToast({
+							title: error.msg,
+							icon: "none"
+						});
+						// setTimeout(function() {
+						// 	uni.navigateBack({
+						// 		delta: 1,
+						// 	})
+						// }, 1000);
+
+						// uni.hideLoading();
+						// this.chooseCouponErrHandle(res);
 					}
 				};
 				http.request(params);
@@ -396,7 +412,10 @@
 						}]
 					},
 					callBack: res => {
-						console.log("res", res)
+						uni.showToast({
+							title: "支付失败！",
+							icon: "none"
+						})
 						uni.hideLoading();
 						// this.calWeixinPay(res.orderNumbers);
 						this.normalPay(res.orderNumbers)

@@ -56,16 +56,23 @@
 				</swiper>
 			</view>
 		</view>
+		<lyg-popup @popupState="popupState" title="服务协议"
+			protocolPath='/pages/agreement/user_service'
+			policyPath='/pages/agreement/privacy'
+			policyStorageKey="has_read_privacy"></lyg-popup>
 	</view>
 </template>
 
 <script module="wxs" lang="wxs" src="@/wxs/number.wxs"></script>
 <script>
+	import lyg_popup from '@/components/lyg-popup/lyg-popup.vue';
 	var http = require("@/utils/http");
 	export default {
+		components: {
+			lyg_popup
+		},
 		data() {
 			return {
-				noticeContentList: [ '张三已兑换商品','张三已兑换商品','张三已兑换商品', '张三已兑换商品'  ],
 				// indexImgs: [
 				// 	'https://cdn.uviewui.com/uview/swiper/swiper1.png',
 				// 	'https://cdn.uviewui.com/uview/swiper/swiper2.png',
@@ -73,8 +80,7 @@
 				// ],
 				indexImgs: [],
 				records: [],
-				list: [
-					{
+				list: [{
 						bg: '#f76658',
 						imgPath: '/static/grid/jifen.png',
 						title: '商城',
@@ -136,10 +142,11 @@
 				}
 			})
 		},
-		onShow() {
-
-		},
+		onShow() {},
 		methods: {
+			popupState(state) {
+				console.log(state);
+			},
 			gridClick(url, tabBar) {
 				if (!url) {
 					uni.showToast({
@@ -148,7 +155,7 @@
 					})
 					return
 				}
-				if(tabBar)  {
+				if (tabBar) {
 					uni.switchTab({
 						url: url
 					})
@@ -163,13 +170,12 @@
 </script>
 
 <style lang="scss" scoped>
-
-
 	.waterfall {
 		margin: 0 -20rpx;
 		column-count: 2; //想要排成的列数
 		column-gap: 0;
 	}
+
 	.record-title {
 		height: 90rpx;
 		line-height: 90rpx;

@@ -33,10 +33,6 @@ export const tableOption = {
     prop: 'realName',
     search: true
   }, {
-    label: '性别',
-    prop: 'sex',
-    slot: true
-  }, {
     label: '身份证号',
     prop: 'idCard',
     search: true,

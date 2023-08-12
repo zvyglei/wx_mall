@@ -92,7 +92,10 @@ public class OrderController {
             Product product = productService.getProductByProdId(shopCartItems.get(0).getProdId());
             if (product.getFlashSale() == 1) {
                 if (CollUtil.isNotEmpty(product.getFlashSaleUser()) && !product.getFlashSaleUser().contains(userId)) {
-                    throw new YamiShopBindException("系统繁忙");
+                    throw new YamiShopBindException("商品库存已抢完");
+                }
+                if (DateUtil.compare(product.getFlashSaleStart(), new Date()) > 0) {
+                    throw new YamiShopBindException("抢购尚未开始");
                 }
                 if (DateUtil.compare(new Date(), product.getFlashSaleEnd()) > 0) {
                     throw new YamiShopBindException("抢购已结束");

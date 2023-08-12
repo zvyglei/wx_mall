@@ -17,8 +17,8 @@
 					</u-input>
 				</u-form-item>
 				<u-form-item prop="code" ref="code">
-					<u-input type="number" border="bottom" maxlength="6" placeholder="请输入6位数字验证码" clearable v-model="formData.code"
-						font-size="16">
+					<u-input type="number" border="bottom" maxlength="6" placeholder="请输入6位数字验证码" clearable
+						v-model="formData.code" font-size="16">
 						<template slot="suffix">
 							<u-code ref="uCode" @change="codeChange" seconds="60" changeText="X秒重新获取"></u-code>
 							<u--text @tap="getCode" :text="tips" :type="'primary'"
@@ -58,6 +58,16 @@
 						font-size="16" maxlength="6"></u-input>
 				</u-form-item> -->
 			</u--form>
+			<!-- <view class="u-m-t-20">
+				<u-checkbox-group>
+					<u-checkbox :customStyle="{marginBottom: '8px'}" @change="changeUserSerive">
+						<u--text text="用户服务协议" type="primary" @tap="showUserService"></u--text>
+					</u-checkbox>
+					<u-checkbox :customStyle="{marginBottom: '8px'}" @change="changePrivacy">
+						<u--text text="隐私政策" type="primary" @tap="showPrivacy"></u--text>
+					</u-checkbox>
+				</u-checkbox-group>
+			</view> -->
 			<view class="u-m-t-30">
 				<u-button type="primary" text="注 册" @tap="register"></u-button>
 			</view>
@@ -196,9 +206,9 @@
 										icon: "none",
 										duration: 1500
 									})
-									
+
 									uni.hideLoading();
-									
+
 									setTimeout(() => {
 										ths.toLogin()
 									}, 1000)

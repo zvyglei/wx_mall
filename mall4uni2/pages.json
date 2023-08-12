@@ -199,6 +199,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/agreement/user_service",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户服务协议",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/agreement/privacy",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "隐私政策",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

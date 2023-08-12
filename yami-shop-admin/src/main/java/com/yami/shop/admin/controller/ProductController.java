@@ -150,6 +150,7 @@ public class ProductController {
             // 设置结束时间
             product.setFlashSaleEnd(DateUtil.offset(productParam.getFlashSaleStart(), DateField.SECOND, productParam.getFlashSaleTime()));
         }
+        product.setFlashSaleUser(productParam.getFlashSaleUser());
         product.setDeliveryMode(Json.toJsonString(productParam.getDeliveryModeVo()));
         product.setUpdateTime(new Date());
 

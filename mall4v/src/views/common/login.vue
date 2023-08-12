@@ -123,7 +123,7 @@ export default {
         })
       }).then(({ data }) => {
         this.$cookie.set('Authorization', data.accessToken)
-        this.$router.replace({ name: 'prodList' })
+        this.$router.replace({ name: 'home' })
       }).catch(() => {
         this.isSubmit = false
       })

@@ -33,12 +33,12 @@
 							开始抢购
 						</view>
 					</u-count-down>
-					<u-count-down v-if="start" :time="saleCount" format="HH:mm:ss" @change="onSaleChange" @finish="onSaleFinish">
+					<u-count-down v-if="start" :time="saleCount" format="HH:mm:ss" @change="onSaleChange" @finish="onSaleFinish" :disabled="saleTimeData.hours > 0 || saleTimeData.minutes > 0 || saleTimeData.seconds > 0">
 						<view class="time" style="width: 280rpx;">
 							{{ saleTimeData.hours >= 10 ? saleTimeData.hours: '0' + saleTimeData.hours}} :
 							{{ saleTimeData.minutes >= 10 ? saleTimeData.minutes: '0' + saleTimeData.minutes }} :
 							{{ saleTimeData.seconds >= 10 ? saleTimeData.seconds: '0' + saleTimeData.seconds }}
-							开始抢购
+							已开抢
 						</view>
 					</u-count-down>
 				</u-button>
